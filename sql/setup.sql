@@ -136,19 +136,15 @@ CREATE OR REPLACE DYNAMIC TABLE CHECK_FAILURES
   LEFT JOIN SRC.ORDER_EVENTS d ON d.event_type = 'DEST_NEW' AND d.routed_order_id = r.routed_order_id AND d.trade_date = r.trade_date
   WHERE r.event_type = 'ROUTE' AND r.destination = 'NW-ATS' AND d.event_id IS NULL
   UNION ALL
-  -- R-SEQ-02: walk each order's events in the system's own step order; flag any event stamped before the NEW event.
+  -- R-SEQ-02: in each order's own step order, flag any event stamped before the order's NEW event.
+  -- (Window functions: MATCH_RECOGNIZE is not supported in Dynamic Table definitions.)
   SELECT 'R-SEQ-02', trade_date, event_id, order_id, desk, source_system,
-         OBJECT_CONSTRUCT('event_type', event_type, 'event_ts', event_ts, 'new_order_ts', new_ts,
-           'ms_before_new', DATEDIFF(millisecond, event_ts, new_ts))
-  FROM (SELECT * FROM SRC.ORDER_EVENTS WHERE event_type <> 'DEST_NEW')
-    MATCH_RECOGNIZE (
-      PARTITION BY order_id ORDER BY step_seq
-      MEASURES CLASSIFIER() AS cls, FIRST(n.event_ts) AS new_ts
-      ALL ROWS PER MATCH
-      PATTERN (^ n (early | ok)+)
-      DEFINE n AS event_type = 'NEW', early AS event_ts < FIRST(n.event_ts), ok AS TRUE
-    )
-  WHERE cls = 'EARLY'
+         OBJECT_CONSTRUCT('event_type', event_type, 'step_seq', step_seq, 'event_ts', event_ts, 'new_order_ts', new_ts,
+           'previous_step_ts', prev_ts, 'ms_before_new', DATEDIFF(millisecond, event_ts, new_ts))
+  FROM (SELECT *, MAX(IFF(event_type = 'NEW', event_ts, NULL)) OVER (PARTITION BY order_id) new_ts,
+               LAG(event_ts) OVER (PARTITION BY order_id ORDER BY step_seq) prev_ts
+        FROM SRC.ORDER_EVENTS WHERE event_type <> 'DEST_NEW')
+  WHERE event_type <> 'NEW' AND event_ts < new_ts
   UNION ALL
   -- R-FLD-03: field domain checks.
   SELECT 'R-FLD-03', trade_date, event_id, order_id, desk, source_system,

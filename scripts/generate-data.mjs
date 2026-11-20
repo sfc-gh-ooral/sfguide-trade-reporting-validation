@@ -168,7 +168,7 @@ for (const d of OCT) {
     const outcome = rnd();
     if (outcome < 0.12) { ev(o, 'CANCEL', new Date(tRoute + int(500, 90000)), { step_seq: seq++ }); continue; }
     if (outcome < 0.22) ev(o, 'MODIFY', new Date(tRoute + int(300, 30000)), { step_seq: seq++, quantity: qty + 100 });
-    const fills = rnd() < 0.7 ? 1 : 2;
+    const fills = qty >= 200 && rnd() < 0.3 ? 2 : 1;
     let tFill = tRoute + int(50, 20000);
     for (let f = 0; f < fills; f++) {
       const px = Math.round((20 + rnd() * 280) * 100) / 100;
@@ -228,9 +228,10 @@ csv('cat_feedback', ['feedback_id', 'event_id', 'order_id', 'trade_date', 'file_
 
 // Daily history (June to September) for the anomaly model: events and regulator rejects per system.
 const hist = [];
-const perSys = { 'OMS-A': 0.5, 'OMS-B': 0.22, 'ALGO-X': 0.24, MANUAL: 0.04 };
-for (const d of HISTORY) for (const [s, sh] of Object.entries(perSys)) {
-  const evts = Math.round(ORDERS_PER_DAY * sh * (s === 'ALGO-X' ? 4.6 : 3.9) * (0.88 + rnd() * 0.24) * (new Date(`${d}T00:00:00Z`).getUTCDay() === 5 ? 1.06 : 1));
+// Events per system per day, matched to the October levels of the detailed feed.
+const perSys = { 'OMS-A': 265, 'OMS-B': 120, 'ALGO-X': 129, MANUAL: 24 };
+for (const d of HISTORY) for (const [s, mean] of Object.entries(perSys)) {
+  const evts = Math.round(mean * (0.82 + rnd() * 0.36) * (new Date(`${d}T00:00:00Z`).getUTCDay() === 5 ? 1.06 : 1));
   hist.push({ trade_date: d, source_system: s, events: evts, rejects: Math.round(evts * 0.0025 * rnd() * 2) });
 }
 csv('daily_stats_history', ['trade_date', 'source_system', 'events', 'rejects'], hist);

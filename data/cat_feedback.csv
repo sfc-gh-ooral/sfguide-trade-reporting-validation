@@ -1,119 +1,90 @@
 feedback_id,event_id,order_id,trade_date,file_id,error_code,error_text,received_ts
-F-000001,E-0000365,O-261001-00102,2026-10-01,CAT-20261001-01,FLD-03,Side code is not a valid value,2026-10-02 11:44:00.000
-F-000002,E-0000575,O-261001-00159,2026-10-01,CAT-20261001-01,FLD-03,Side code is not a valid value,2026-10-02 11:27:00.000
-F-000003,E-0001027,O-261002-00278,2026-10-02,CAT-20261002-01,FLD-03,Side code is not a valid value,2026-10-05 11:35:00.000
-F-000004,E-0002142,O-261006-00574,2026-10-06,CAT-20261006-01,FLD-03,Side code is not a valid value,2026-10-07 11:36:00.000
-F-000005,E-0005506,O-261014-01473,2026-10-14,CAT-20261014-01,FLD-03,Side code is not a valid value,2026-10-15 11:11:00.000
-F-000006,E-0007530,O-261016-02016,2026-10-16,CAT-20261016-01,FLD-03,Side code is not a valid value,2026-10-19 11:35:00.000
-F-000007,E-0008400,O-261019-02248,2026-10-19,CAT-20261019-01,FLD-03,Side code is not a valid value,2026-10-20 11:48:00.000
-F-000008,E-0008411,O-261019-02251,2026-10-19,CAT-20261019-01,FLD-03,Side code is not a valid value,2026-10-20 11:34:00.000
-F-000009,E-0009001,O-261020-02412,2026-10-20,CAT-20261020-01,FLD-03,Side code is not a valid value,2026-10-21 11:11:00.000
-F-000010,E-0009461,O-261020-02536,2026-10-20,CAT-20261020-01,FLD-03,Side code is not a valid value,2026-10-21 11:47:00.000
-F-000011,E-0010733,O-261023-02891,2026-10-23,CAT-20261023-01,FLD-03,Side code is not a valid value,2026-10-26 11:50:00.000
-F-000012,E-0011313,O-261026-03046,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:50:00.000
-F-000013,E-0011316,O-261026-03047,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:31:00.000
-F-000014,E-0011356,O-261026-03058,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:44:00.000
-F-000015,E-0011365,O-261026-03060,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:44:00.000
-F-000016,E-0011426,O-261026-03076,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:08:00.000
-F-000017,E-0011433,O-261026-03078,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:19:00.000
-F-000018,E-0011476,O-261026-03090,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:41:00.000
-F-000019,E-0011495,O-261026-03095,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:27:00.000
-F-000020,E-0011546,O-261026-03109,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:04:00.000
-F-000021,E-0011562,O-261026-03114,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:34:00.000
-F-000022,E-0011565,O-261026-03115,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:38:00.000
-F-000023,E-0011589,O-261026-03121,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:10:00.000
-F-000024,E-0011618,O-261026-03128,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:05:00.000
-F-000025,E-0011619,O-261026-03128,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:08:00.000
-F-000026,E-0011630,O-261026-03131,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:39:00.000
-F-000027,E-0011633,O-261026-03132,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:09:00.000
-F-000028,E-0011640,O-261026-03134,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:16:00.000
-F-000029,E-0011659,O-261026-03139,2026-10-26,CAT-20261026-01,FLD-03,Side code is not a valid value,2026-10-27 11:20:00.000
-F-000030,E-0011700,O-261026-03150,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:16:00.000
-F-000031,E-0011701,O-261026-03150,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:14:00.000
-F-000032,E-0011758,O-261026-03166,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:42:00.000
-F-000033,E-0011780,O-261026-03172,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:02:00.000
-F-000034,E-0011803,O-261026-03177,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:02:00.000
-F-000035,E-0011833,O-261026-03185,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:01:00.000
-F-000036,E-0011897,O-261027-03204,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:05:00.000
-F-000037,E-0011903,O-261027-03206,2026-10-27,CAT-20261027-01,FLD-03,Side code is not a valid value,2026-10-28 11:01:00.000
-F-000038,E-0011916,O-261027-03209,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:21:00.000
-F-000039,E-0011917,O-261027-03209,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:36:00.000
-F-000040,E-0011991,O-261027-03229,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:43:00.000
-F-000041,E-0012001,O-261027-03232,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:48:00.000
-F-000042,E-0012009,O-261027-03234,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:08:00.000
-F-000043,E-0012021,O-261027-03238,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:05:00.000
-F-000044,E-0012035,O-261027-03242,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:44:00.000
-F-000045,E-0012050,O-261027-03246,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:17:00.000
-F-000046,E-0012101,O-261027-03260,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:03:00.000
-F-000047,E-0012108,O-261027-03262,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:46:00.000
-F-000048,E-0012116,O-261027-03264,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:23:00.000
-F-000049,E-0012134,O-261027-03269,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:34:00.000
-F-000050,E-0012226,O-261027-03293,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:11:00.000
-F-000051,E-0012227,O-261027-03293,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:30:00.000
-F-000052,E-0012230,O-261027-03294,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:00:00.000
-F-000053,E-0012260,O-261027-03302,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:46:00.000
-F-000054,E-0012337,O-261027-03322,2026-10-27,CAT-20261027-01,FLD-03,Side code is not a valid value,2026-10-28 11:07:00.000
-F-000055,E-0012404,O-261027-03339,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:10:00.000
-F-000056,E-0012471,O-261027-03356,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:27:00.000
-F-000057,E-0012567,O-261028-03380,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:19:00.000
-F-000058,E-0012682,O-261028-03411,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:34:00.000
-F-000059,E-0012686,O-261028-03412,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:04:00.000
-F-000060,E-0012721,O-261028-03422,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:41:00.000
-F-000061,E-0012745,O-261028-03428,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:06:00.000
-F-000062,E-0012752,O-261028-03430,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:36:00.000
-F-000063,E-0012756,O-261028-03431,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:50:00.000
-F-000064,E-0012769,O-261028-03434,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:16:00.000
-F-000065,E-0012906,O-261028-03473,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:38:00.000
-F-000066,E-0012987,O-261028-03495,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:36:00.000
-F-000067,E-0012993,O-261028-03496,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:19:00.000
-F-000068,E-0013012,O-261028-03501,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:29:00.000
-F-000069,E-0013061,O-261028-03514,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:49:00.000
-F-000070,E-0013062,O-261028-03514,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:00:00.000
-F-000071,E-0013103,O-261028-03526,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:25:00.000
-F-000072,E-0013135,O-261028-03535,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:10:00.000
-F-000073,E-0013154,O-261029-03540,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:45:00.000
-F-000074,E-0013165,O-261029-03543,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:07:00.000
-F-000075,E-0013176,O-261029-03546,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:19:00.000
-F-000076,E-0013187,O-261029-03549,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:40:00.000
-F-000077,E-0013203,O-261029-03553,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:40:00.000
-F-000078,E-0013204,O-261029-03553,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:40:00.000
-F-000079,E-0013218,O-261029-03557,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:28:00.000
-F-000080,E-0013252,O-261029-03567,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:36:00.000
-F-000081,E-0013256,O-261029-03568,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:13:00.000
-F-000082,E-0013260,O-261029-03569,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:46:00.000
-F-000083,E-0013263,O-261029-03570,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:26:00.000
-F-000084,E-0013306,O-261029-03582,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:09:00.000
-F-000085,E-0013316,O-261029-03585,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:33:00.000
-F-000086,E-0013330,O-261029-03589,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:19:00.000
-F-000087,E-0013331,O-261029-03589,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:47:00.000
-F-000088,E-0013362,O-261029-03599,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:18:00.000
-F-000089,E-0013377,O-261029-03603,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:12:00.000
-F-000090,E-0013382,O-261029-03604,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:05:00.000
-F-000091,E-0013396,O-261029-03608,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:16:00.000
-F-000092,E-0013404,O-261029-03610,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:05:00.000
-F-000093,E-0013408,O-261029-03611,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:34:00.000
-F-000094,E-0013430,O-261029-03617,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:15:00.000
-F-000095,E-0013448,O-261029-03621,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:39:00.000
-F-000096,E-0013459,O-261029-03624,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:43:00.000
-F-000097,E-0013468,O-261029-03626,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:27:00.000
-F-000098,E-0013483,O-261029-03630,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:33:00.000
-F-000099,E-0013493,O-261029-03633,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:22:00.000
-F-000100,E-0013502,O-261029-03636,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:40:00.000
-F-000101,E-0013510,O-261029-03638,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:04:00.000
-F-000102,E-0013519,O-261029-03640,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:18:00.000
-F-000103,E-0013526,O-261029-03642,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:28:00.000
-F-000104,E-0013561,O-261029-03651,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:00:00.000
-F-000105,E-0013562,O-261029-03651,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:24:00.000
-F-000106,E-0013565,O-261029-03652,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:20:00.000
-F-000107,E-0013590,O-261029-03659,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:41:00.000
-F-000108,E-0013620,O-261029-03667,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:35:00.000
-F-000109,E-0013635,O-261029-03671,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:06:00.000
-F-000110,E-0013654,O-261029-03676,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:18:00.000
-F-000111,E-0013658,O-261029-03677,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:10:00.000
-F-000112,E-0013669,O-261029-03680,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:02:00.000
-F-000113,E-0013674,O-261029-03681,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:50:00.000
-F-000114,E-0013695,O-261029-03686,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:46:00.000
-F-000115,E-0013719,O-261029-03693,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:13:00.000
-F-000116,E-0013728,O-261029-03695,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:01:00.000
-F-000117,E-0004716,O-261013-01260,2026-10-13,CAT-20261013-01,LTE-04,File received after the submission deadline,2026-10-14 11:40:00.000
-F-000118,E-0009464,O-261021-02537,2026-10-21,CAT-20261021-01,LTE-04,File received after the submission deadline,2026-10-22 11:21:00.000
+F-000001,E-0000254,O-261001-00071,2026-10-01,CAT-20261001-01,FLD-03,Side code is not a valid value,2026-10-02 11:09:00.000
+F-000002,E-0000287,O-261001-00079,2026-10-01,CAT-20261001-01,FLD-03,Side code is not a valid value,2026-10-02 11:16:00.000
+F-000003,E-0001062,O-261002-00290,2026-10-02,CAT-20261002-01,FLD-03,Side code is not a valid value,2026-10-05 11:30:00.000
+F-000004,E-0001228,O-261002-00335,2026-10-02,CAT-20261002-01,FLD-03,Side code is not a valid value,2026-10-05 11:05:00.000
+F-000005,E-0006087,O-261015-01650,2026-10-15,CAT-20261015-01,FLD-03,Side code is not a valid value,2026-10-16 11:17:00.000
+F-000006,E-0006810,O-261016-01845,2026-10-16,CAT-20261016-01,FLD-03,Side code is not a valid value,2026-10-19 11:46:00.000
+F-000007,E-0008304,O-261016-02245,2026-10-16,CAT-20261016-01,FLD-03,Side code is not a valid value,2026-10-19 11:04:00.000
+F-000008,E-0008386,O-261019-02267,2026-10-19,CAT-20261019-01,FLD-03,Side code is not a valid value,2026-10-20 11:27:00.000
+F-000009,E-0008600,O-261019-02324,2026-10-19,CAT-20261019-01,FLD-03,Side code is not a valid value,2026-10-20 11:09:00.000
+F-000010,E-0009961,O-261021-02691,2026-10-21,CAT-20261021-01,FLD-03,Side code is not a valid value,2026-10-22 11:36:00.000
+F-000011,E-0010294,O-261022-02781,2026-10-22,CAT-20261022-01,FLD-03,Side code is not a valid value,2026-10-23 11:36:00.000
+F-000012,E-0010482,O-261022-02831,2026-10-22,CAT-20261022-01,FLD-03,Side code is not a valid value,2026-10-23 11:31:00.000
+F-000013,E-0011468,O-261026-03106,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:42:00.000
+F-000014,E-0011534,O-261026-03124,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:15:00.000
+F-000015,E-0011635,O-261026-03152,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:11:00.000
+F-000016,E-0011636,O-261026-03152,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:27:00.000
+F-000017,E-0011644,O-261026-03155,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:00:00.000
+F-000018,E-0011723,O-261026-03176,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:35:00.000
+F-000019,E-0011725,O-261026-03176,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:41:00.000
+F-000020,E-0011728,O-261026-03177,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:27:00.000
+F-000021,E-0011747,O-261026-03183,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:00:00.000
+F-000022,E-0011748,O-261026-03183,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:01:00.000
+F-000023,E-0011832,O-261026-03206,2026-10-26,CAT-20261026-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-27 11:24:00.000
+F-000024,E-0012005,O-261027-03252,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:22:00.000
+F-000025,E-0012009,O-261027-03253,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:39:00.000
+F-000026,E-0012010,O-261027-03253,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:11:00.000
+F-000027,E-0012012,O-261027-03254,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:21:00.000
+F-000028,E-0012074,O-261027-03272,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:25:00.000
+F-000029,E-0012157,O-261027-03294,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:17:00.000
+F-000030,E-0012214,O-261027-03309,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:34:00.000
+F-000031,E-0012218,O-261027-03310,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:37:00.000
+F-000032,E-0012219,O-261027-03310,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:22:00.000
+F-000033,E-0012259,O-261027-03322,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:15:00.000
+F-000034,E-0012274,O-261027-03326,2026-10-27,CAT-20261027-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-28 11:29:00.000
+F-000035,E-0012402,O-261028-03360,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:23:00.000
+F-000036,E-0012412,O-261028-03363,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:28:00.000
+F-000037,E-0012414,O-261028-03363,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:09:00.000
+F-000038,E-0012441,O-261028-03370,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:48:00.000
+F-000039,E-0012506,O-261028-03388,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:33:00.000
+F-000040,E-0012550,O-261028-03399,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:48:00.000
+F-000041,E-0012551,O-261028-03399,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:43:00.000
+F-000042,E-0012553,O-261028-03400,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:37:00.000
+F-000043,E-0012623,O-261028-03419,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:05:00.000
+F-000044,E-0012727,O-261028-03448,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:31:00.000
+F-000045,E-0012771,O-261028-03461,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:30:00.000
+F-000046,E-0012778,O-261028-03463,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:36:00.000
+F-000047,E-0012845,O-261028-03482,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:49:00.000
+F-000048,E-0012846,O-261028-03482,2026-10-28,CAT-20261028-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-29 11:44:00.000
+F-000049,E-0012974,O-261028-03516,2026-10-28,CAT-20261028-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-29 11:45:00.000
+F-000050,E-0013046,O-261029-03535,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:28:00.000
+F-000051,E-0013047,O-261029-03535,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:07:00.000
+F-000052,E-0013053,O-261029-03537,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:06:00.000
+F-000053,E-0013057,O-261029-03538,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:31:00.000
+F-000054,E-0013075,O-261029-03543,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:45:00.000
+F-000055,E-0013101,O-261029-03550,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:21:00.000
+F-000056,E-0013115,O-261029-03554,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:13:00.000
+F-000057,E-0013189,O-261029-03575,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:48:00.000
+F-000058,E-0013197,O-261029-03577,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:39:00.000
+F-000059,E-0013219,O-261029-03583,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:41:00.000
+F-000060,E-0013303,O-261029-03606,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:01:00.000
+F-000061,E-0013318,O-261029-03610,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:11:00.000
+F-000062,E-0013333,O-261029-03614,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:02:00.000
+F-000063,E-0013340,O-261029-03616,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:09:00.000
+F-000064,E-0013352,O-261029-03619,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:09:00.000
+F-000065,E-0013363,O-261029-03622,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:26:00.000
+F-000066,E-0013389,O-261029-03629,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:37:00.000
+F-000067,E-0013397,O-261029-03631,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:21:00.000
+F-000068,E-0013407,O-261029-03634,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:10:00.000
+F-000069,E-0013429,O-261029-03640,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:31:00.000
+F-000070,E-0013436,O-261029-03642,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:46:00.000
+F-000071,E-0013447,O-261029-03645,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:43:00.000
+F-000072,E-0013457,O-261029-03648,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:00:00.000
+F-000073,E-0013461,O-261029-03649,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:00:00.000
+F-000074,E-0013464,O-261029-03650,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:09:00.000
+F-000075,E-0013471,O-261029-03652,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:14:00.000
+F-000076,E-0013486,O-261029-03656,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:49:00.000
+F-000077,E-0013493,O-261029-03658,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:23:00.000
+F-000078,E-0013504,O-261029-03661,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:30:00.000
+F-000079,E-0013507,O-261029-03662,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:05:00.000
+F-000080,E-0013524,O-261029-03666,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:45:00.000
+F-000081,E-0013528,O-261029-03667,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:43:00.000
+F-000082,E-0013533,O-261029-03668,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:25:00.000
+F-000083,E-0013536,O-261029-03669,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:19:00.000
+F-000084,E-0013553,O-261029-03673,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:05:00.000
+F-000085,E-0013583,O-261029-03681,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:07:00.000
+F-000086,E-0013602,O-261029-03686,2026-10-29,CAT-20261029-01,LNK-01,Route to an industry member has no matching new-order event at the destination,2026-10-30 11:36:00.000
+F-000087,E-0013621,O-261029-03691,2026-10-29,CAT-20261029-01,SEQ-02,Event timestamp is earlier than the order origination event,2026-10-30 11:39:00.000
+F-000088,E-0004772,O-261013-01298,2026-10-13,CAT-20261013-01,LTE-04,File received after the submission deadline,2026-10-14 11:33:00.000
+F-000089,E-0009470,O-261021-02555,2026-10-21,CAT-20261021-01,LTE-04,File received after the submission deadline,2026-10-22 11:25:00.000
