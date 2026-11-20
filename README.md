@@ -74,7 +74,7 @@ the session.
 ## Live mode: deploy to your account
 
 1. Open `sql/setup.sql` in a Snowsight SQL worksheet and **Run All** as a user with ACCOUNTADMIN.
-   It takes about 3 to 3.5 minutes on the XSMALL warehouse it creates.
+   It takes about 3 to 4 minutes on the XSMALL warehouse it creates.
 2. Create a key pair and register the public key on your user (commands in `.env.example`).
 3. `cp .env.example .env.local` and fill in your account identifier, user, and key path.
 4. `npm run dev`, then switch the header to **Live**. Every screen now reads Snowflake as
@@ -112,8 +112,8 @@ Measured in one run on an AWS US account (November 2026):
 | Customer matching (`AI_SIMILARITY`) | about 0.8 seconds |
 | Run checks again (Dynamic Table refresh + `RUN_CHECKS`) | about 5 seconds |
 
-Warehouse time for setup is about 3.5 minutes of XSMALL, which at XSMALL's rate of 1 credit per hour
-is roughly 0.06 credits (an estimate from measured time, not a billing figure). Cortex AI functions,
+Warehouse time for setup is about 4 minutes of XSMALL, which at XSMALL's rate of 1 credit per hour
+is roughly 0.07 credits (an estimate from measured time, not a billing figure). Cortex AI functions,
 Cortex Search serving, Dynamic Table refreshes, and data metric functions add small charges that
 depend on your region and pricing. Run `sql/cleanup.sql` when you're done: the Dynamic Tables refresh
 hourly and the search service refreshes daily while they exist.

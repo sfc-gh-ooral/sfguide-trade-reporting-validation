@@ -47,8 +47,8 @@ daytime and printing, with the same tokens.
 | `--line` | `#262C37` | `#D9D4C7` | Hairlines |
 | `--text` | `#E8EAEE` | `#16181D` | Body |
 | `--text-2` | `#A9B0BC` | `#4A4F59` | Secondary |
-| `--muted` | `#8A92A0` | `#646A75` | Captions, axes |
-| `--signal` | `#FFB020` | `#9A5B00` | Deadlines, primary action, focus |
+| `--muted` | `#8A92A0` | `#5E6470` | Captions, axes |
+| `--signal` | `#FFB020` | `#8F5400` | Deadlines, primary action, focus |
 | `--ice` | `#7CC4FF` | `#1F5F9E` | Data series 1, links |
 | `--mint` | `#5BE49B` | `#17784A` | Pass, repaired |
 | `--coral` | `#FF7A6B` | `#B23A2C` | Fail, reject, anomaly |

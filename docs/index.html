@@ -134,14 +134,14 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--m
     <a class="btn" href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation">View the repository</a>
   </div>
   </div>
-  <div class="board" role="img" aria-label="Departures-board style status panel for the synthetic Northwind Securities feed on trade date October 29: 542 events reported, 38 regulator rejects with 26 linkage breaks from one system, 38 of 38 caught by pre-submission checks, 12 fills missing from the CAT feed, a CAIS customer split across three accounts, and the next CAT file due in 2 days 16 hours.">
+  <div class="board" role="img" aria-label="Departures-board style status panel for the synthetic Northwind Securities feed on trade date October 29: 542 events reported, 38 regulator rejects with 26 linkage breaks from one system, 38 of 38 caught by pre-submission checks, 12 out-of-sequence events, a CAIS customer split across three accounts, and the next CAT file due in 2 days 16 hours.">
     <div class="bh"><span>Northwind Securities · trade date 10-29</span><span>synthetic</span></div>
     <table>
       <tr><td class="k">Events reported</td><td class="v">542</td></tr>
       <tr><td class="k">Regulator rejects</td><td class="v"><span class="pill bad">38 · +387%</span></td></tr>
       <tr><td class="k">LNK-01 linkage breaks, ALGO-X</td><td class="v"><span class="pill bad">26</span></td></tr>
       <tr><td class="k">Caught before submission</td><td class="v"><span class="pill good">38 / 38</span></td></tr>
-      <tr><td class="k">Fills missing from the CAT feed</td><td class="v"><span class="pill warn">12</span></td></tr>
+      <tr><td class="k">SEQ-02 out-of-sequence events</td><td class="v"><span class="pill warn">12</span></td></tr>
       <tr><td class="k">CAIS customer on 3 accounts</td><td class="v"><span class="pill ai">match 0.977</span></td></tr>
       <tr><td class="k">Next CAT file due</td><td class="v" style="color:var(--signal)">2d 16h<span class="blink">_</span></td></tr>
     </table>
@@ -151,8 +151,8 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--m
   <div class="facts">
     <div class="fact"><b>No-account mode</b>Runs in the browser on synthetic data; nothing to install</div>
     <div class="fact"><b>Live mode</b>Enterprise Edition; Dynamic Tables, data metric functions, anomaly detection, Cortex AI</div>
-    <div class="fact"><b>Setup time</b>About 3 to 3.5 minutes in one Snowsight worksheet</div>
-    <div class="fact"><b>Warehouse time</b>About 3.5 minutes of XSMALL for setup (roughly 0.06 credits, estimated), plus AI usage</div>
+    <div class="fact"><b>Setup time</b>About 3 to 4 minutes in one Snowsight worksheet</div>
+    <div class="fact"><b>Warehouse time</b>About 4 minutes of XSMALL for setup (roughly 0.07 credits, estimated), plus AI usage</div>
   </div>
   <p class="note"><strong>Synthetic data, illustrative logic.</strong> Northwind Securities and every person in it are fictional. Schemas and error codes are simplified; they are not the official CAT or CAIS specifications. This is not regulatory advice, and AI suggestions need a person's approval.</p>
 </div>
@@ -173,31 +173,31 @@ footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--m
     <h2>Walkthrough</h2>
     <p class="sub">Screenshots of the running app on its synthetic data set: trade dates October 1 to 29, 2026, frozen at a business clock of October 30, 16:00 ET.</p>
     <figure>
-      <img src="images/01-health.png" alt="Submission health for trade date October 29: 542 events reported, 38 check failures, 38 regulator rejects against an October average of 2.5 per day, 100 percent caught before submission, a repair backlog of 68, a repair deadline countdown, and a stacked bar chart of rejects by error code that spikes on October 29" loading="lazy">
-      <figcaption><span class="cap">Dynamic Tables</span><strong>Submission health.</strong> The October 29 file has 38 rejects against an October average of 2.5 a day. A <strong>Dynamic Table</strong> keeps daily events, check failures, and rejects per system current.</figcaption>
+      <img src="images/01-health.png" alt="Cadrel submission health for trade date October 29: a reject-spike banner reading 38 rejects against a 7.8 per-day average with 26 LNK-01 linkage breaks from ALGO-X, KPI tiles for 542 events, 38 check failures, 38 rejects, 100 percent caught before submission and a repair backlog of 68, and a stacked bar chart of rejects by error code that spikes on October 29" loading="lazy">
+      <figcaption><span class="cap">Dynamic Tables</span><strong>Submission health.</strong> The October 29 file has 38 rejects against an average of 7.8 a day over the prior five trading days. A <strong>Dynamic Table</strong> keeps daily events, check failures, and rejects per system current.</figcaption>
     </figure>
     <figure>
-      <img src="images/02-checks.png" alt="Pre-submission checks for October 29: a rule table with R-LNK-01 showing 26 failures out of 52 routes, R-SEQ-02 with 12, the data metric function rules at zero, failing records for R-LNK-01 from ALGO-X Program Trading, and the books-to-CAT reconciliation by source system" loading="lazy">
+      <img src="images/02-checks.png" alt="Rule library for October 29: six rule tiles with pass or fail status, R-LNK-01 selected with 26 failures out of 52 routes and R-SEQ-02 with 12, and a table of failing records from ALGO-X program trading routed to NW-ATS with PT-prefixed routed order IDs" loading="lazy">
       <figcaption><span class="cap">Dynamic Tables · Data metric functions</span><strong>Pre-submission checks.</strong> Each rule in the library runs per trade date in the <strong>CHECK_FAILURES</strong> Dynamic Table; <strong>data metric functions</strong> measure nulls and duplicates; <strong>BOOKS_RECON</strong> reconciles executions in the books to the CAT feed.</figcaption>
     </figure>
     <figure>
-      <img src="images/03-order.png" alt="Order timeline: swimlanes for the firm, the destination ATS, and the books, with the route event marked red, and a route linkage panel showing the firm's routed order ID with a PT- prefix and the ATS's ID without it" loading="lazy">
+      <img src="images/03-order.png" alt="Order lifecycle for O-261029-03543: a swimlane timeline across the firm CAT feed, the destination ATS and the books with the ROUTE event flagged in coral, and a route linkage panel showing the firm routed order ID PT-261029-03543 against the ATS ID 261029-03543" loading="lazy">
       <figcaption><span class="cap">Window functions</span><strong>Order timeline.</strong> One order's lifecycle across the firm, the ATS, and the books. The firm sent <code>PT-…</code> and the ATS recorded the ID without the prefix, so the route can't be linked.</figcaption>
     </figure>
     <figure>
-      <img src="images/04-rejects.png" alt="Reject workbench: root-cause clusters on the left with LNK-01 ALGO-X Program Trading selected, an AI explanation labeled Sample AI response with a suggested repair, FAQ sources, and the list of rejects with assign and mark-repaired actions" loading="lazy">
+      <img src="images/04-rejects.png" alt="Reject workbench: root-cause clusters with LNK-01 ALGO-X program trading selected, 30 rejects all caught by a check, an AI explanation labeled Sample AI response with what happened, the likely root cause and three suggested repair steps, and three cited FAQ sources from Cortex Search" loading="lazy">
       <figcaption><span class="cap">Cortex Search · AI_COMPLETE</span><strong>Reject workbench.</strong> Rejects clustered by error code, system, and desk. <strong>Cortex Search</strong> retrieves FAQ excerpts written for this example and <strong>AI_COMPLETE</strong> explains the error and suggests a repair. The analyst assigns and repairs in bulk, with a note.</figcaption>
     </figure>
     <figure>
-      <img src="images/05-cais.png" alt="CAIS customers: three account records for Elena Marchetti with similarity scores of 0.977 and 0.956, conflicting customer ID, date of birth, name, and address highlighted in red, and a proposed canonical record with one dropdown per field and an approve button" loading="lazy">
+      <img src="images/05-cais.png" alt="CAIS customers: three account records for Elena Marchetti with similarity scores of 0.977 and 0.956, conflicting customer ID, name, date of birth and address in coral, and a proposed canonical record with one dropdown per field, an approval note and an approve button" loading="lazy">
       <figcaption><span class="cap">AI_SIMILARITY</span><strong>CAIS customer view.</strong> <strong>AI_SIMILARITY</strong> finds the same customer across three accounts; conflicting fields are highlighted and the app proposes a canonical record that a person approves.</figcaption>
     </figure>
     <figure>
-      <img src="images/06-anomalies.png" alt="Anomaly monitor: small charts of rejects and events per day for ALGO-X, MANUAL, OMS-A, and OMS-B with a shaded expected range and red anomaly points, including OMS-B rejects from October 26 and the October 16 volume spike" loading="lazy">
+      <img src="images/06-anomalies.png" alt="Anomaly monitor: 15 flagged days across source systems, and small charts of regulator rejects per day for ALGO-X, MANUAL, OMS-A and OMS-B with a shaded expected range and amber anomaly points, including ALGO-X rejecting 26 on October 29 against an expected 0 to 1" loading="lazy">
       <figcaption><span class="cap">SNOWFLAKE.ML.ANOMALY_DETECTION</span><strong>Anomaly monitor.</strong> A model trained on June to September flags OMS-B rejects from October 26 (clock drift), the ALGO-X spike, and the October 16 volume day.</figcaption>
     </figure>
     <figure>
-      <img src="images/07-evidence.png" alt="Evidence: a run-checks-again button, a decision log, and a check run log with run IDs, trade dates, rule IDs and versions, records checked, failures, and query IDs" loading="lazy">
+      <img src="images/07-evidence.png" alt="Evidence: a button to run the checks again for October 29, an empty decision log, and a check run log with run IDs, trade dates, rule IDs and versions, records checked, failures and Snowflake query IDs" loading="lazy">
       <figcaption><span class="cap">Dynamic Tables · Data metric functions</span><strong>Evidence.</strong> Every run with rule versions, counts, and <strong>query IDs</strong>, and every assignment, repair, and approval with who made it and whether AI assisted.</figcaption>
     </figure>
   </div>

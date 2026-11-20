@@ -24,31 +24,40 @@ const SCHEME = process.env.COLOR_SCHEME || "light";  // "dark" or "light"
 
 // The walkthrough, in landing-page order. `card` marks which shots become catalog cards (in that order).
 const SHOTS = [
-  { name: "01-health", card: 1, path: "/", wait: "text=Last five trade dates" },
+  { name: "01-health", card: 1, path: "/", wait: "text=Rejects by error code and trade date" },
   {
     name: "02-checks", card: 2, path: "/checks/?date=2026-10-29", wait: "text=Books-to-CAT reconciliation",
-    async act(page) { await page.getByText("Failing records: R-LNK-01").scrollIntoViewIfNeeded(); },
+    async act(page) {
+      await page.getByRole("button", { name: /R-LNK-01/ }).first().click();
+      await page.getByText("Failing records · R-LNK-01").waitFor();
+      await page.locator('a[href*="/order"]').first().waitFor();
+    },
   },
   {
-    name: "03-order", card: 3, path: "/checks/?date=2026-10-29", wait: "text=Failing records: R-LNK-01",
-    async act(page) { await page.locator('a[href*="/order"]').first().click(); await page.getByText("Lifecycle timeline").waitFor(); },
+    name: "03-order", card: 3, path: "/checks/?date=2026-10-29", wait: "text=Books-to-CAT reconciliation",
+    async act(page) {
+      await page.getByRole("button", { name: /R-LNK-01/ }).first().click();
+      await page.locator('a[href*="/order"]').first().click();
+      await page.getByText("How this order moved").waitFor();
+    },
   },
   {
     name: "04-rejects", card: 4, path: "/rejects/", wait: "text=Root-cause clusters",
     async act(page) {
       await page.getByRole("button", { name: /LNK-01/ }).first().click();
-      await page.getByRole("button", { name: /Explain and suggest a repair/ }).click();
-      await page.getByText("Suggested repair").first().waitFor({ timeout: 20000 });
+      await page.getByRole("button", { name: /Explain and suggest a repair/ }).first().click();
+      await page.getByText("Suggested repair", { exact: true }).first().waitFor({ timeout: 40000 });
+      await page.waitForTimeout(1500);
     },
   },
   {
-    name: "05-cais", card: 5, path: "/cais/", wait: "text=Feedback",
+    name: "05-cais", card: 5, path: "/cais/", wait: "text=One customer, one record",
     async act(page) {
-      await page.getByRole("button", { name: /Find matching records/ }).click();
-      await page.getByText("Proposed canonical record").waitFor({ timeout: 20000 });
+      await page.getByRole("button", { name: /Find matching records/ }).first().click();
+      await page.getByRole("button", { name: /Approve canonical record/ }).waitFor({ timeout: 40000 });
     },
   },
-  { name: "06-anomalies", card: 6, path: "/anomalies/", wait: "text=Regulator rejects per day" },
+  { name: "06-anomalies", card: 6, path: "/anomalies/", wait: "text=Volumes and error rates by source system" },
   { name: "07-evidence", path: "/evidence/", wait: "text=Check run log" },
 ];
 
