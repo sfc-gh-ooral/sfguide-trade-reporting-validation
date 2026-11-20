@@ -14,7 +14,7 @@
     "name": "Lifecycle timestamps in sequence",
     "severity": "High",
     "error_code": "SEQ-02",
-    "method": "MATCH_RECOGNIZE",
+    "method": "Window functions",
     "description": "Within an order, no event may carry a timestamp earlier than the order's new-order event, in the system's own step order."
   },
   {

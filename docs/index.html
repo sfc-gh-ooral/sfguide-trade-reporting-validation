@@ -1,0 +1,247 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<meta name="snowflake-source" content="cortex-agent-authored">
+<title>Regulatory Trade Reporting Validation: a Snowflake example</title>
+<meta name="description" content="Catch CAT and CAIS reporting errors before submission, reconcile against the books, and work regulator rejects faster. A Snowflake example on synthetic data.">
+<script type="application/json" id="snowflake-report-metadata">
+{
+  "generated": "2026-11-20",
+  "intent": "GitHub Pages guide for the Regulatory Trade Reporting Validation: a Snowflake example",
+  "dataSources": [
+    { "type": "file", "path": "docs/images/*.png" },
+    { "type": "file", "path": "sql/setup.sql" }
+  ],
+  "sections": [
+    { "id": "problem", "title": "The problem", "producerNotes": "Static copy from the build brief" },
+    { "id": "walkthrough", "title": "Walkthrough", "dataSources": [{ "type": "file", "path": "docs/images/*.png" }], "producerNotes": "Screenshots of the running app in no-account mode; recapture when the UI changes" },
+    { "id": "how-it-works", "title": "How it works", "dataSources": [{ "type": "file", "path": "sql/setup.sql" }], "producerNotes": "Capabilities verified in live mode on 2026-11-20" },
+    { "id": "get-started", "title": "Get started", "producerNotes": "Mirrors README quick start and live steps" },
+    { "id": "limits", "title": "Limits and disclaimer", "producerNotes": "Mirrors README known limitations" }
+  ]
+}
+</script>
+<style>
+:root {
+  color-scheme: light dark;
+  --bg: light-dark(#f6f7fb, #0d1220);
+  --card: light-dark(#ffffff, #141b2d);
+  --card-2: light-dark(#f0f2f8, #1b2439);
+  --border: light-dark(#dde1ec, #2a3550);
+  --text: light-dark(#141a2e, #e8ecf6);
+  --text-2: light-dark(#4a5373, #aab3cc);
+  --muted: light-dark(#6b7493, #8590ad);
+  --accent: light-dark(#1a6fd1, #5aa7f5);
+  --accent-soft: light-dark(rgba(26,111,209,.1), rgba(90,167,245,.14));
+  --warn-soft: light-dark(#fff6e6, #2b2414);
+  --warn-border: light-dark(#f0c36d, #6b5420);
+}
+* { box-sizing: border-box; }
+html { scroll-behavior: smooth; }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
+a { color: var(--accent); }
+img, svg { max-width: 100%; height: auto; }
+.wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
+header.top { border-bottom: 1px solid var(--border); background: var(--card); }
+header.top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
+.mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
+.brand { font-weight: 650; }
+.brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
+nav.links { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; }
+nav.links a { text-decoration: none; color: var(--text-2); }
+nav.links a:hover { color: var(--accent); }
+.hero { padding-top: clamp(36px, 7vw, 72px); padding-bottom: 28px; }
+.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
+h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin: 10px 0 16px; letter-spacing: -.01em; }
+.lede { font-size: clamp(17px, 2.2vw, 19px); color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
+.btn { display: inline-block; padding: 10px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--card); color: var(--text); text-decoration: none; font-weight: 600; font-size: 15px; }
+.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
+.fact { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
+.fact b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
+.note { background: var(--warn-soft); border: 1px solid var(--warn-border); border-radius: 10px; padding: 12px 16px; font-size: 14px; margin: 22px 0 0; }
+section { padding: 44px 0; border-top: 1px solid var(--border); }
+h2 { font-size: clamp(24px, 3.4vw, 30px); margin: 0 0 10px; }
+h3 { font-size: 18px; margin: 0 0 6px; }
+.sub { color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
+.grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
+.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.card p { margin: 0; color: var(--text-2); font-size: 15px; }
+figure { margin: 0 0 34px; }
+figure img { display: block; width: 100%; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
+figcaption { margin-top: 10px; font-size: 15px; color: var(--text-2); }
+figcaption .cap { display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 9px; margin-right: 6px; }
+.step { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+.two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: start; }
+.table-wrap { overflow-x: auto; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
+th { background: var(--card-2); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
+code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
+code { background: var(--card-2); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--card-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
+pre code { background: none; padding: 0; }
+ul { padding-left: 20px; }
+li { margin: 4px 0; }
+footer { border-top: 1px solid var(--border); padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
+@media (max-width: 560px) { nav.links { margin-left: 0; width: 100%; gap: 12px; } }
+</style>
+</head>
+<body>
+
+<header class="top">
+  <div class="wrap">
+    <div class="mark" aria-hidden="true">
+      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
+    </div>
+    <div class="brand">Regulatory Trade Reporting Validation<small>A Snowflake example on synthetic data</small></div>
+    <nav class="links" aria-label="Page sections">
+      <a href="#walkthrough">Walkthrough</a>
+      <a href="#how-it-works">How it works</a>
+      <a href="#get-started">Get started</a>
+      <a href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation">Repository</a>
+    </nav>
+  </div>
+</header>
+
+<main>
+<div class="wrap hero" id="problem">
+  <div class="eyebrow">Capital Markets · Compliance</div>
+  <h1>Catch CAT and CAIS reporting errors before the regulator does</h1>
+  <p class="lede">Broker-dealers report every order event to the Consolidated Audit Trail (CAT) and customer and account data to CAIS. Volumes are huge, checks and reconciliations are often manual, and regulator feedback arrives as rejects that analysts work by hand against a deadline. This example runs pre-submission checks and a books-to-CAT reconciliation in a Snowflake pipeline, flags volume and error anomalies, clusters rejects by root cause with an AI explanation and suggested repair, matches customer records across accounts, and logs every run and decision as evidence.</p>
+  <div class="cta">
+    <a class="btn primary" href="try/">Try the example in your browser</a>
+    <a class="btn" href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation">View the repository</a>
+  </div>
+  <div class="facts">
+    <div class="fact"><b>No-account mode</b>Runs in the browser on synthetic data; nothing to install</div>
+    <div class="fact"><b>Live mode</b>Enterprise Edition; Dynamic Tables, data metric functions, anomaly detection, Cortex AI</div>
+    <div class="fact"><b>Setup time</b>About 3 to 3.5 minutes in one Snowsight worksheet</div>
+    <div class="fact"><b>Warehouse time</b>About 3.5 minutes of XSMALL for setup (roughly 0.06 credits, estimated), plus AI usage</div>
+  </div>
+  <p class="note"><strong>Synthetic data, illustrative logic.</strong> Northwind Securities and every person in it are fictional. Schemas and error codes are simplified; they are not the official CAT or CAIS specifications. This is not regulatory advice, and AI suggestions need a person's approval.</p>
+</div>
+
+<section>
+  <div class="wrap">
+    <h2>Who it's for</h2>
+    <div class="grid3">
+      <div class="card"><h3>Reporting analysts</h3><p>A reject queue grouped by root cause, the order lifecycle behind each reject, a plain-English explanation, and bulk repair actions.</p></div>
+      <div class="card"><h3>Reporting managers</h3><p>Today against the trend, the share of rejects the checks would have caught, the repair backlog, and the next deadline.</p></div>
+      <div class="card"><h3>Compliance and audit</h3><p>A run log with rule versions, counts, and query IDs, and a record of every repair and approval with the person who made it.</p></div>
+    </div>
+  </div>
+</section>
+
+<section id="walkthrough">
+  <div class="wrap">
+    <h2>Walkthrough</h2>
+    <p class="sub">Screenshots of the running app on its synthetic data set: trade dates October 1 to 29, 2026, frozen at a business clock of October 30, 16:00 ET.</p>
+    <figure>
+      <img src="images/01-health.png" alt="Submission health for trade date October 29: 542 events reported, 38 check failures, 38 regulator rejects against an October average of 2.5 per day, 100 percent caught before submission, a repair backlog of 68, a repair deadline countdown, and a stacked bar chart of rejects by error code that spikes on October 29" loading="lazy">
+      <figcaption><span class="cap">Dynamic Tables</span><strong>Submission health.</strong> The October 29 file has 38 rejects against an October average of 2.5 a day. A <strong>Dynamic Table</strong> keeps daily events, check failures, and rejects per system current.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/02-checks.png" alt="Pre-submission checks for October 29: a rule table with R-LNK-01 showing 26 failures out of 52 routes, R-SEQ-02 with 12, the data metric function rules at zero, failing records for R-LNK-01 from ALGO-X Program Trading, and the books-to-CAT reconciliation by source system" loading="lazy">
+      <figcaption><span class="cap">Dynamic Tables · Data metric functions</span><strong>Pre-submission checks.</strong> Each rule in the library runs per trade date in the <strong>CHECK_FAILURES</strong> Dynamic Table; <strong>data metric functions</strong> measure nulls and duplicates; <strong>BOOKS_RECON</strong> reconciles executions in the books to the CAT feed.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/03-order.png" alt="Order timeline: swimlanes for the firm, the destination ATS, and the books, with the route event marked red, and a route linkage panel showing the firm's routed order ID with a PT- prefix and the ATS's ID without it" loading="lazy">
+      <figcaption><span class="cap">Window functions</span><strong>Order timeline.</strong> One order's lifecycle across the firm, the ATS, and the books. The firm sent <code>PT-…</code> and the ATS recorded the ID without the prefix, so the route can't be linked.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/04-rejects.png" alt="Reject workbench: root-cause clusters on the left with LNK-01 ALGO-X Program Trading selected, an AI explanation labeled Sample AI response with a suggested repair, FAQ sources, and the list of rejects with assign and mark-repaired actions" loading="lazy">
+      <figcaption><span class="cap">Cortex Search · AI_COMPLETE</span><strong>Reject workbench.</strong> Rejects clustered by error code, system, and desk. <strong>Cortex Search</strong> retrieves FAQ excerpts written for this example and <strong>AI_COMPLETE</strong> explains the error and suggests a repair. The analyst assigns and repairs in bulk, with a note.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/05-cais.png" alt="CAIS customers: three account records for Elena Marchetti with similarity scores of 0.977 and 0.956, conflicting customer ID, date of birth, name, and address highlighted in red, and a proposed canonical record with one dropdown per field and an approve button" loading="lazy">
+      <figcaption><span class="cap">AI_SIMILARITY</span><strong>CAIS customer view.</strong> <strong>AI_SIMILARITY</strong> finds the same customer across three accounts; conflicting fields are highlighted and the app proposes a canonical record that a person approves.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/06-anomalies.png" alt="Anomaly monitor: small charts of rejects and events per day for ALGO-X, MANUAL, OMS-A, and OMS-B with a shaded expected range and red anomaly points, including OMS-B rejects from October 26 and the October 16 volume spike" loading="lazy">
+      <figcaption><span class="cap">SNOWFLAKE.ML.ANOMALY_DETECTION</span><strong>Anomaly monitor.</strong> A model trained on June to September flags OMS-B rejects from October 26 (clock drift), the ALGO-X spike, and the October 16 volume day.</figcaption>
+    </figure>
+    <figure>
+      <img src="images/07-evidence.png" alt="Evidence: a run-checks-again button, a decision log, and a check run log with run IDs, trade dates, rule IDs and versions, records checked, failures, and query IDs" loading="lazy">
+      <figcaption><span class="cap">Dynamic Tables · Data metric functions</span><strong>Evidence.</strong> Every run with rule versions, counts, and <strong>query IDs</strong>, and every assignment, repair, and approval with who made it and whether AI assisted.</figcaption>
+    </figure>
+  </div>
+</section>
+
+<section id="how-it-works">
+  <div class="wrap">
+    <h2>How it works</h2>
+    <p class="sub">Each capability below ran in live mode on a Snowflake Enterprise account in November 2026.</p>
+    <div class="table-wrap">
+      <table>
+        <thead><tr><th>Step</th><th>Snowflake capability</th><th>What it does here</th></tr></thead>
+        <tbody>
+          <tr><td>Validation pipeline</td><td><a href="https://docs.snowflake.com/en/user-guide/dynamic-tables-about">Dynamic Tables</a></td><td>CHECK_FAILURES (route linkage, timestamp sequence, field values, completeness), BOOKS_RECON, and DAILY_STATS, refreshed from the raw feed.</td></tr>
+          <tr><td>Sequence checks</td><td>Window functions</td><td>Each order's events in the system's own step order, compared with its NEW event. (MATCH_RECOGNIZE isn't supported in Dynamic Tables.)</td></tr>
+          <tr><td>Completeness and validity</td><td><a href="https://docs.snowflake.com/en/user-guide/data-quality-intro">Data metric functions</a></td><td>NULL_COUNT and DUPLICATE_COUNT, scheduled on the feed and recorded per trade date in the run log.</td></tr>
+          <tr><td>Anomalies</td><td><a href="https://docs.snowflake.com/en/user-guide/ml-functions/anomaly-detection">Anomaly detection</a></td><td>One model, one series per system and metric, trained on four months of daily counts.</td></tr>
+          <tr><td>Reject explanations</td><td><a href="https://docs.snowflake.com/en/user-guide/snowflake-cortex/cortex-search/cortex-search-overview">Cortex Search</a> and <a href="https://docs.snowflake.com/en/sql-reference/functions/ai_complete-single-string">AI_COMPLETE</a></td><td>Retrieves FAQ excerpts for the error code, then drafts an explanation and a suggested repair from the cluster's facts.</td></tr>
+          <tr><td>Customer matching</td><td><a href="https://docs.snowflake.com/en/sql-reference/functions/ai_similarity">AI_SIMILARITY</a></td><td>Scores records that share the tax ID's last four digits; a person approves the canonical record.</td></tr>
+          <tr><td>Evidence</td><td>Stored procedure and query history</td><td>RUN_CHECKS logs each rule's version, counts, and query ID; every human decision is written to an approval log.</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</section>
+
+<section id="get-started">
+  <div class="wrap">
+    <h2>Get started</h2>
+    <div class="two">
+      <div>
+        <h3>No account</h3>
+        <p class="sub" style="margin-bottom:12px">Open the <a href="try/">hosted example</a>, or run it locally with Node.js 20.19 or later:</p>
+<pre><code>git clone https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation.git
+cd sfguide-trade-reporting-validation
+npm install
+npm run dev</code></pre>
+        <p class="sub">AI answers in this mode were recorded from a live run and are labeled <strong>Sample AI response</strong>.</p>
+      </div>
+      <div>
+        <h3>Your Snowflake account</h3>
+        <ol>
+          <li>Run <a href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation/blob/main/sql/setup.sql"><code>sql/setup.sql</code></a> in a Snowsight worksheet. It creates a dedicated database, an XSMALL warehouse, and a least-privilege role, loads the synthetic data from the repository, builds the pipeline, and trains the anomaly model.</li>
+          <li>Register a key pair for your user and copy <code>.env.example</code> to <code>.env.local</code>.</li>
+          <li>Run <code>npm run dev</code> and switch to Live. Each screen shows the live role and measured latency.</li>
+          <li>When you're done, run <code>sql/cleanup.sql</code>.</li>
+        </ol>
+        <p class="sub">Requires Enterprise Edition or higher. The README lists every object created, the expected cost, and the full steps.</p>
+      </div>
+    </div>
+    <h3 style="margin-top:20px">Customize with Cortex Code</h3>
+    <ul>
+      <li>"Map my OMS event tables to SRC.ORDER_EVENTS and list the fields I can't map."</li>
+      <li>"Add a rule to the library for late reporting by event type, with tests."</li>
+      <li>"Tune the anomaly model for my daily volumes and explain the false-positive trade-off."</li>
+    </ul>
+  </div>
+</section>
+
+<section id="limits">
+  <div class="wrap">
+    <h2>Limits and disclaimer</h2>
+    <ul>
+      <li>Schemas, rules, error codes, deadlines, and regulator feedback are simplified and illustrative, not the official specifications. The feedback is generated with the data.</li>
+      <li>Results such as "38 rejects" and "100% caught" are planted stories on this synthetic data set.</li>
+      <li>Repairs are recorded in the app; nothing is resubmitted anywhere.</li>
+      <li>AI answers vary run to run and are suggestions; nothing is repaired or approved without a person.</li>
+      <li>Latency depends on your account, region, model, and warehouse. The app shows measured times in live mode only.</li>
+    </ul>
+    <p class="note">This is an illustrative example provided as is. It is not an official Snowflake product, it isn't supported by Snowflake Support, and it contains no customer data. Not regulatory advice. Apache 2.0 license.</p>
+  </div>
+</section>
+</main>
+
+<footer>
+  <div class="wrap">Owner: Oz Oral · Last reviewed: November 2026 · <a href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation">Repository</a> · <a href="https://docs.snowflake.com/">Snowflake documentation</a></div>
+</footer>
+</body>
+</html>

@@ -138,7 +138,6 @@ const ev = (o, type, t, extra = {}) => {
   return e;
 };
 
-const dailyRejectsBase = {};
 for (const d of OCT) {
   const n = Math.round(ORDERS_PER_DAY * baseVolume(d));
   for (let i = 0; i < n; i++) {
@@ -239,7 +238,7 @@ csv('daily_stats_history', ['trade_date', 'source_system', 'events', 'rejects'],
 // Rule library: what each pre-submission check tests. Loaded into CTRL.RULES by setup.sql.
 const rules = [
   { rule_id: 'R-LNK-01', version: '1.2', name: 'Route links to destination new order', severity: 'High', error_code: 'LNK-01', method: 'Anti-join', description: 'Every route to the firm\'s own ATS must have a destination new-order event with the same routed order ID on the same trade date.' },
-  { rule_id: 'R-SEQ-02', version: '1.0', name: 'Lifecycle timestamps in sequence', severity: 'High', error_code: 'SEQ-02', method: 'MATCH_RECOGNIZE', description: 'Within an order, no event may carry a timestamp earlier than the order\'s new-order event, in the system\'s own step order.' },
+  { rule_id: 'R-SEQ-02', version: '1.0', name: 'Lifecycle timestamps in sequence', severity: 'High', error_code: 'SEQ-02', method: 'Window functions', description: 'Within an order, no event may carry a timestamp earlier than the order\'s new-order event, in the system\'s own step order.' },
   { rule_id: 'R-FLD-03', version: '2.1', name: 'Valid field values', severity: 'Medium', error_code: 'FLD-03', method: 'Domain check', description: 'Side is B, S, or SS; quantity is positive; symbol is present.' },
   { rule_id: 'R-CMP-05', version: '1.0', name: 'Books-to-CAT completeness', severity: 'High', error_code: null, method: 'Reconciliation', description: 'Every execution in the books has an EXECUTE event in the reporting feed with the same execution reference.' },
   { rule_id: 'R-DQ-06', version: '1.0', name: 'Firm designated ID present', severity: 'Medium', error_code: null, method: 'Data metric function (NULL_COUNT)', description: 'Firm designated ID is never null in the reporting feed.' },

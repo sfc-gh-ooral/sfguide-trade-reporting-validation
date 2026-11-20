@@ -116,6 +116,10 @@ CREATE OR REPLACE TABLE REPAIRS (feedback_id VARCHAR, regime VARCHAR, status VAR
   updated_by VARCHAR, updated_ts TIMESTAMP_LTZ);
 INSERT INTO REPAIRS (feedback_id, regime, status) SELECT feedback_id, 'CAT', 'Open' FROM SRC.CAT_FEEDBACK;
 INSERT INTO REPAIRS (feedback_id, regime, status) SELECT feedback_id, 'CAIS', 'Open' FROM SRC.CAIS_FEEDBACK;
+-- Rejects up to trade date 2026-10-27 were already worked record by record before this example starts.
+UPDATE REPAIRS r SET status = 'Repaired', assignee = 'Reporting Operations', repair_note = 'Corrected and resubmitted record by record',
+  updated_by = 'REPORTING_OPS', updated_ts = DATEADD(day, 2, f.trade_date)::TIMESTAMP_LTZ
+  FROM SRC.CAT_FEEDBACK f WHERE f.feedback_id = r.feedback_id AND f.trade_date <= '2026-10-27';
 CREATE OR REPLACE TABLE APPROVAL_LOG (action VARCHAR, object_type VARCHAR, object_ids VARCHAR, detail VARCHAR, ai_assisted BOOLEAN,
   actor VARCHAR, ts TIMESTAMP_LTZ);
 CREATE OR REPLACE TABLE CANONICAL_CUSTOMERS (canonical_id VARCHAR, record_ids VARCHAR, name VARCHAR, dob DATE, address VARCHAR,
