@@ -9,17 +9,18 @@ import { type Mode, preferSample, setPreferredMode } from '@/lib/mode';
 
 const REPO = 'https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation';
 
-export function ModeChip() {
+export function ModeChip({ onMode }: { onMode?: (m: Mode) => void } = {}) {
   const [configured, setConfigured] = useState<boolean>();
   const [mode, setMode] = useState<Mode>();
   const [help, setHelp] = useState(false);
 
   useEffect(() => {
-    const done = (c: boolean) => { setConfigured(c); setMode(c && !preferSample() ? 'live' : 'sample'); };
+    const done = (c: boolean) => { const m: Mode = c && !preferSample() ? 'live' : 'sample'; setConfigured(c); setMode(m); onMode?.(m); };
     if (HOSTED_EXAMPLE) return done(false);
     fetch('/api/mode').then((r) => r.json()).then((j) => done(j.mode === 'live')).catch(() => done(false));
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
-  if (!mode) return null;
+  if (!mode) return <div className="skeleton h-8 w-36" aria-hidden />;
 
   const choose = (next: Mode) => {
     if (next === mode) return;
@@ -31,24 +32,26 @@ export function ModeChip() {
 
   return (
     <>
-      <div className={`mode-switch ${live ? 'is-live' : 'is-sample'}`} role="radiogroup" aria-label="Data source">
-        <button role="radio" aria-checked={!live} onClick={() => choose('sample')}
-          title="Bundled synthetic data; AI answers are scripted samples">
+      <div className="inline-flex items-center rounded-lg p-0.5 gap-0.5" style={{ background: 'var(--surface-2)', border: '1px solid var(--line)' }} role="radiogroup" aria-label="Data source">
+        <button role="radio" aria-checked={!live} onClick={() => choose('sample')} className="h-7 px-2.5 rounded-md text-xs font-semibold inline-flex items-center gap-1.5"
+          style={!live ? { background: 'var(--signal)', color: 'var(--on-signal)' } : { color: 'var(--text-2)' }}
+          title="Bundled synthetic data; AI answers are captured samples">
           <FlaskConical className="w-3.5 h-3.5" aria-hidden />Sample
         </button>
-        <button role="radio" aria-checked={live} onClick={() => choose('live')}
+        <button role="radio" aria-checked={live} onClick={() => choose('live')} className="h-7 px-2.5 rounded-md text-xs font-semibold inline-flex items-center gap-1.5"
+          style={live ? { background: 'color-mix(in srgb, var(--mint) 18%, var(--surface))', color: 'var(--mint)' } : { color: 'var(--text-2)' }}
           title={configured ? 'Data and AI answers from your Snowflake account' : 'Needs a Snowflake connection'}>
-          {live && <span className="mode-dot" aria-hidden />}<Database className="w-3.5 h-3.5" aria-hidden />Live
+          {live ? <span className="pulse-dot" aria-hidden /> : <Database className="w-3.5 h-3.5" aria-hidden />}Live
         </button>
       </div>
 
       {help && (
         <div className="fixed inset-0 z-50 flex items-center justify-center p-4 bg-black/50" onClick={() => setHelp(false)}>
-          <div role="dialog" aria-modal="true" aria-labelledby="live-help-title" className="card fade-up max-w-lg w-full p-5"
+          <div role="dialog" aria-modal="true" aria-labelledby="live-help-title" className="panel fade-up max-w-lg w-full p-5"
             onClick={(e) => e.stopPropagation()}>
             <div className="flex items-start justify-between gap-3 mb-3">
               <h2 id="live-help-title" className="text-base font-semibold">Connect Snowflake to use Live mode</h2>
-              <button className="btn !px-2" onClick={() => setHelp(false)} aria-label="Close"><X className="w-4 h-4" /></button>
+              <button className="btn btn-sm" onClick={() => setHelp(false)} aria-label="Close"><X className="w-4 h-4" /></button>
             </div>
             {HOSTED_EXAMPLE ? (
               <p className="text-sm text-2">This hosted example runs only on synthetic data in your browser. To use Live mode,
@@ -63,7 +66,7 @@ export function ModeChip() {
                   <li>Create a key pair and register the public key on your user (steps in <code>.env.example</code>).</li>
                   <li>Copy <code>.env.example</code> to <code>.env.local</code> and fill in:</li>
                 </ol>
-                <pre className="text-xs rounded-lg p-3 mb-3 overflow-x-auto" style={{ background: 'var(--surface-2)' }}>{`SNOWFLAKE_ACCOUNT=<orgname>-<account_name>
+                <pre className="mono text-xs rounded-lg p-3 mb-3 overflow-x-auto" style={{ background: 'var(--surface-2)' }}>{`SNOWFLAKE_ACCOUNT=<orgname>-<account_name>
 SNOWFLAKE_USERNAME=<YOUR_USER>
 SNOWFLAKE_PRIVATE_KEY_PATH=/absolute/path/to/trv_rsa_key.p8`}</pre>
                 <p className="text-sm text-2">Then restart with <code>npm run dev</code> and switch to Live.{' '}

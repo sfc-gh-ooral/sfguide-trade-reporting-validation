@@ -4,7 +4,7 @@
 import raw from './sample/data.json';
 import { clusters, deadline } from './build';
 import type { TrvData } from './trv-data';
-import { SAMPLE_DELAY_MS } from './sample-timing';
+import { SAMPLE_DELAY_MS, jitter } from './sample-timing';
 import type { Anomalies, Approval, Cais, Canonical, CheckRecords, Checks, Evidence, Explain, Feedback, Health, Match, OrderTimeline, Rejects, RepairStatus, RunLogRow } from './types';
 
 interface Sample {
@@ -47,7 +47,7 @@ export const mockData: TrvData = {
   },
   async rejects() { const fb = allFeedback(); return { ...mock, clusters: clusters(fb), total: fb.length }; },
   async explain(id) {
-    await wait(SAMPLE_DELAY_MS.explain);
+    await wait(jitter(SAMPLE_DELAY_MS.explain));
     const e = S.explain[id];
     if (!e) throw new Error('No sample explanation for this cluster');
     return { ...strip(e), ...mock };
@@ -68,7 +68,7 @@ export const mockData: TrvData = {
   },
   async cais() { return { ...mock, issues: caisIssues(), canonical: [...S.cais.canonical, ...canonical] }; },
   async match(recordId) {
-    await wait(SAMPLE_DELAY_MS.match);
+    await wait(jitter(SAMPLE_DELAY_MS.match));
     const m = S.match[recordId];
     if (!m) throw new Error('No sample match for this record');
     return { ...strip(m), ...mock };
@@ -85,7 +85,7 @@ export const mockData: TrvData = {
   async anomalies() { return { ...strip(S.anomalies), ...mock }; },
   async evidence() { return { ...mock, runs: [...runs, ...S.evidence.runs], approvals: [...approvals, ...S.evidence.approvals] }; },
   async runChecks(tradeDate) {
-    await wait(SAMPLE_DELAY_MS.runChecks);
+    await wait(jitter(SAMPLE_DELAY_MS.runChecks));
     const latest = S.evidence.runs.filter((r) => r.trade_date === tradeDate);
     const last = latest[0]?.run_id;
     const runId = `RUN-${tradeDate.replaceAll('-', '')}-SAMPLE${runs.length + 1}`;

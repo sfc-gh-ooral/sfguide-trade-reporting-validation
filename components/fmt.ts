@@ -13,6 +13,7 @@ export const countdown = (from: string, to: string) => {
   const d = Math.floor(h / 24);
   return d ? `${d}d ${Math.round(h - d * 24)}h` : `${Math.floor(h)}h ${Math.round((h % 1) * 60)}m`;
 };
-export const CODE_COLORS: Record<string, string> = { 'LNK-01': 'var(--chart-5)', 'SEQ-02': 'var(--chart-3)', 'FLD-03': 'var(--chart-4)', 'LTE-04': 'var(--chart-2)' };
+export const CODE_COLORS: Record<string, string> = { 'LNK-01': 'var(--coral)', 'SEQ-02': 'var(--signal)', 'FLD-03': 'var(--violet)', 'LTE-04': 'var(--ice)' };
 export const CODE_NAMES: Record<string, string> = { 'LNK-01': 'Linkage break', 'SEQ-02': 'Out of sequence', 'FLD-03': 'Invalid field', 'LTE-04': 'Late', 'CA-11': 'Missing large trader ID', 'CA-12': 'Address format', 'CA-13': 'Inconsistent customer' };
-export const TIP = { background: 'var(--surface)', border: '1px solid var(--border)', borderRadius: 8, fontSize: 12 } as const;
+export const TIP = { background: 'var(--surface)', border: '1px solid var(--line-strong)', borderRadius: 8, fontSize: 12, color: 'var(--text)', fontFamily: 'var(--font-plex-mono)' } as const;
+export const AXIS = { fontSize: 10.5, fill: 'var(--muted)', fontFamily: 'var(--font-plex-mono)' } as const;

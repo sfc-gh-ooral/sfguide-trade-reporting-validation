@@ -1,19 +1,34 @@
-// Small status pills used across screens.
+// Status pills and the error panel used across screens.
+import { AlertTriangle } from 'lucide-react';
 import type { ReactNode } from 'react';
 
 const TONES = {
-  good: ['var(--positive)', 'color-mix(in srgb, var(--positive) 13%, transparent)'],
-  bad: ['var(--negative)', 'color-mix(in srgb, var(--negative) 12%, transparent)'],
-  warn: ['var(--warning)', 'color-mix(in srgb, var(--warning) 14%, transparent)'],
-  info: ['var(--accent)', 'var(--accent-soft)'],
-  muted: ['var(--muted)', 'var(--surface-2)'],
+  good: 'var(--mint)', bad: 'var(--coral)', warn: 'var(--signal)', info: 'var(--ice)', ai: 'var(--violet)', muted: 'var(--muted)',
 } as const;
+export type Tone = keyof typeof TONES;
 
-export function Tag({ tone = 'muted', children, title }: { tone?: keyof typeof TONES; children: ReactNode; title?: string }) {
-  const [color, bg] = TONES[tone];
-  return <span title={title} className="inline-flex items-center gap-1 rounded-full px-2 py-0.5 text-[11px] font-semibold whitespace-nowrap" style={{ color, background: bg }}>{children}</span>;
+export function Tag({ tone = 'muted', children, title, mono }: { tone?: Tone; children: ReactNode; title?: string; mono?: boolean }) {
+  const c = TONES[tone];
+  return (
+    <span title={title} className={`pill ${mono ? 'mono' : ''}`}
+      style={{ color: c, background: `color-mix(in srgb, ${c} 13%, transparent)`, borderColor: `color-mix(in srgb, ${c} 28%, transparent)` }}>
+      {children}
+    </span>
+  );
+}
+
+export function StatusTag({ status, assignee }: { status: string; assignee?: string | null }) {
+  if (status === 'Repaired') return <Tag tone="good">Repaired</Tag>;
+  if (status === 'Assigned') return <Tag tone="info" title={assignee ?? undefined}>Assigned{assignee ? ` · ${assignee.split(' ')[0]}` : ''}</Tag>;
+  return <Tag tone="warn">Open</Tag>;
 }
 
 export function ErrorBox({ error }: { error: string }) {
-  return <div role="alert" className="card p-4 text-sm" style={{ borderColor: 'var(--negative)', color: 'var(--negative)' }}>Couldn&apos;t load from Snowflake: {error}</div>;
+  return (
+    <div role="alert" className="panel p-4 text-sm flex gap-3 items-start" style={{ borderColor: 'var(--coral)' }}>
+      <AlertTriangle className="w-4 h-4 mt-0.5 shrink-0" style={{ color: 'var(--coral)' }} aria-hidden />
+      <div><div className="font-semibold">Couldn&apos;t load from Snowflake</div><div className="text-2 mono text-xs mt-1 break-all">{error}</div>
+        <div className="muted text-xs mt-1">Live mode never falls back to sample data. Check the connection in .env.local, or switch to Sample.</div></div>
+    </div>
+  );
 }
