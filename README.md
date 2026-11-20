@@ -93,7 +93,7 @@ To refresh the sample from your own live run: `node scripts/capture-sample.mjs h
 | Database | `TRADE_REPORTING_DEMO` | Schemas `SRC` (books, feed, submissions, feedback) and `RPT` (pipeline, workflow, evidence) |
 | Dynamic Tables | `RPT.CHECK_FAILURES`, `RPT.BOOKS_RECON`, `RPT.DAILY_STATS` | `TARGET_LAG = '1 hour'` |
 | Procedure | `RPT.RUN_CHECKS` | Logs one run per trade date to `RPT.RUN_LOG` |
-| Anomaly model | `RPT.VOLUME_MODEL` | Results in `RPT.ANOMALY_RESULTS` |
+| Anomaly model | `RPT.VOLUME_MODEL` | Live mode calls `VOLUME_MODEL!DETECT_ANOMALIES` on `RPT.ANOMALY_INPUT` each time the Anomaly monitor opens (about 20 s on XSMALL); setup also stores a first run in `RPT.ANOMALY_RESULTS` |
 | Cortex Search service | `RPT.SPEC_FAQ_SEARCH` | `TARGET_LAG = '1 day'` |
 | Git repository, stage | `SRC.TRV_REPO`, `SRC.TRV_DATA` | Public repository, read only |
 | API integration | `TRV_GIT_API` | `git_https_api`, limited to `https://github.com/sfc-gh-ooral/` |

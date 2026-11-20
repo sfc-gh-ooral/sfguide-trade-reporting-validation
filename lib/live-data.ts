@@ -179,7 +179,14 @@ ${hits.map((h) => `- ${h.title}: ${h.body}`).join('\n')}`;
   },
 
   async anomalies() {
-    const [rows, ms] = await timed(() => query(`SELECT REPLACE(series, '"', '') series, ${D('ts::DATE', 'd')}, y, forecast, lower_bound, upper_bound, is_anomaly FROM RPT.ANOMALY_RESULTS ORDER BY series, ts`));
+    // Scores October live with the trained model on every load, then reads the call's result set.
+    const [rows, ms] = await timed(async () => {
+      const { queryId } = await exec(`CALL RPT.VOLUME_MODEL!DETECT_ANOMALIES(
+        INPUT_DATA => TABLE(RPT.ANOMALY_INPUT), SERIES_COLNAME => 'SERIES', TIMESTAMP_COLNAME => 'TS', TARGET_COLNAME => 'V',
+        CONFIG_OBJECT => {'prediction_interval': 0.99})`);
+      return query(`SELECT REPLACE(series, '"', '') series, ${D('ts::DATE', 'd')}, y, forecast, lower_bound, upper_bound, is_anomaly
+        FROM TABLE(RESULT_SCAN(?)) ORDER BY series, ts`, [queryId]);
+    });
     const m = new Map<string, AnomalySeries>();
     for (const r of lower<Row>(rows)) {
       const s = String(r.series);
