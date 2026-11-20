@@ -210,7 +210,7 @@ export function StreamText({ text, onDone }: { text: string; onDone?: () => void
   const words = useMemo(() => text.split(/(\s+)/), [text]);
   const [k, setK] = useState(0);
   useEffect(() => {
-    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { setK(words.length); onDone?.(); return; }
+    if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) { const t = window.setTimeout(() => { setK(words.length); onDone?.(); }); return () => window.clearTimeout(t); }
     let i = 0;
     const id = window.setInterval(() => { i += 3; setK(Math.min(words.length, i)); if (i >= words.length) { window.clearInterval(id); onDone?.(); } }, 28);
     return () => window.clearInterval(id);

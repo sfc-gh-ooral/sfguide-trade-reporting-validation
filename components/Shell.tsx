@@ -26,7 +26,7 @@ const NAV = [
 
 function ThemeToggle() {
   const [light, setLight] = useState(false);
-  useEffect(() => { setLight(document.documentElement.dataset.theme === 'light'); }, []);
+  useEffect(() => { const t = window.setTimeout(() => setLight(document.documentElement.dataset.theme === 'light')); return () => window.clearTimeout(t); }, []);
   const flip = () => {
     const next = !light; setLight(next);
     document.documentElement.dataset.theme = next ? 'light' : 'dark';
