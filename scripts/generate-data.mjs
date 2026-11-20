@@ -229,9 +229,9 @@ csv('cat_feedback', ['feedback_id', 'event_id', 'order_id', 'trade_date', 'file_
 // Daily history (June to September) for the anomaly model: events and regulator rejects per system.
 const hist = [];
 // Events per system per day, matched to the October levels of the detailed feed.
-const perSys = { 'OMS-A': 265, 'OMS-B': 120, 'ALGO-X': 129, MANUAL: 24 };
-for (const d of HISTORY) for (const [s, mean] of Object.entries(perSys)) {
-  const evts = Math.round(mean * (0.82 + rnd() * 0.36) * (new Date(`${d}T00:00:00Z`).getUTCDay() === 5 ? 1.06 : 1));
+const perSys = { 'OMS-A': [265, 0.2], 'OMS-B': [120, 0.3], 'ALGO-X': [129, 0.3], MANUAL: [24, 0.5] };
+for (const d of HISTORY) for (const [s, [mean, spread]] of Object.entries(perSys)) {
+  const evts = Math.round(mean * (1 - spread + rnd() * 2 * spread) * (new Date(`${d}T00:00:00Z`).getUTCDay() === 5 ? 1.06 : 1));
   hist.push({ trade_date: d, source_system: s, events: evts, rejects: Math.round(evts * 0.0025 * rnd() * 2) });
 }
 csv('daily_stats_history', ['trade_date', 'source_system', 'events', 'rejects'], hist);
