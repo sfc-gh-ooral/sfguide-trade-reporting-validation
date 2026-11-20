@@ -1,0 +1,7 @@
+rule_id,version,name,severity,error_code,method,description
+R-LNK-01,1.2,Route links to destination new order,High,LNK-01,Anti-join,Every route to the firm's own ATS must have a destination new-order event with the same routed order ID on the same trade date.
+R-SEQ-02,1.0,Lifecycle timestamps in sequence,High,SEQ-02,MATCH_RECOGNIZE,"Within an order, no event may carry a timestamp earlier than the order's new-order event, in the system's own step order."
+R-FLD-03,2.1,Valid field values,Medium,FLD-03,Domain check,"Side is B, S, or SS; quantity is positive; symbol is present."
+R-CMP-05,1.0,Books-to-CAT completeness,High,,Reconciliation,Every execution in the books has an EXECUTE event in the reporting feed with the same execution reference.
+R-DQ-06,1.0,Firm designated ID present,Medium,,Data metric function (NULL_COUNT),Firm designated ID is never null in the reporting feed.
+R-DQ-07,1.0,Event ID unique,Medium,,Data metric function (DUPLICATE_COUNT),Event IDs are unique within the reporting feed.

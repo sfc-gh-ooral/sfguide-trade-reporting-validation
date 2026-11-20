@@ -1,0 +1,16 @@
+feedback_id,record_id,account_id,error_code,error_text,received_ts
+CF-00001,R-00001,A-00001,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00002,R-00005,A-00005,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00003,R-00006,A-00006,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00004,R-00013,A-00013,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00005,R-00014,A-00014,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00006,R-00015,A-00015,CA-12,Postal code is not five digits,2026-10-30 11:20:00.000
+CF-00007,R-00118,A-00118,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00008,R-00148,A-00148,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00009,R-00284,A-00284,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00010,R-00354,A-00354,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00011,R-00417,A-00417,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00012,R-00491,A-00491,CA-11,Large trader account reported without a large trader ID,2026-10-30 11:20:00.000
+CF-00013,R-00502,A-00502,CA-13,Customer attributes differ across accounts for the same tax ID,2026-10-30 11:20:00.000
+CF-00014,R-00503,A-00503,CA-13,Customer attributes differ across accounts for the same tax ID,2026-10-30 11:20:00.000
+CF-00015,R-00504,A-00504,CA-13,Customer attributes differ across accounts for the same tax ID,2026-10-30 11:20:00.000
