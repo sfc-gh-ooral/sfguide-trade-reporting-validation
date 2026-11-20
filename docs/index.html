@@ -4,7 +4,7 @@
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
 <meta name="snowflake-source" content="cortex-agent-authored">
-<title>Regulatory Trade Reporting Validation: a Snowflake example</title>
+<title>Cadrel reporting desk: regulatory trade reporting validation, a Snowflake example</title>
 <meta name="description" content="Catch CAT and CAIS reporting errors before submission, reconcile against the books, and work regulator rejects faster. A Snowflake example on synthetic data.">
 <script type="application/json" id="snowflake-report-metadata">
 {
@@ -24,80 +24,96 @@
 }
 </script>
 <style>
+@font-face { font-family: "Plex Sans"; src: url(fonts/plex-sans.woff2) format("woff2"); font-weight: 400 600; font-display: swap; }
+@font-face { font-family: "Plex Cond"; src: url(fonts/plex-cond-600.woff2) format("woff2"); font-weight: 600; font-display: swap; }
+@font-face { font-family: "Plex Cond"; src: url(fonts/plex-cond-700.woff2) format("woff2"); font-weight: 700; font-display: swap; }
+@font-face { font-family: "Plex Mono"; src: url(fonts/plex-mono-400.woff2) format("woff2"); font-weight: 400; font-display: swap; }
+@font-face { font-family: "Plex Mono"; src: url(fonts/plex-mono-500.woff2) format("woff2"); font-weight: 500; font-display: swap; }
 :root {
-  color-scheme: light dark;
-  --bg: light-dark(#f6f7fb, #0d1220);
-  --card: light-dark(#ffffff, #141b2d);
-  --card-2: light-dark(#f0f2f8, #1b2439);
-  --border: light-dark(#dde1ec, #2a3550);
-  --text: light-dark(#141a2e, #e8ecf6);
-  --text-2: light-dark(#4a5373, #aab3cc);
-  --muted: light-dark(#6b7493, #8590ad);
-  --accent: light-dark(#1a6fd1, #5aa7f5);
-  --accent-soft: light-dark(rgba(26,111,209,.1), rgba(90,167,245,.14));
-  --warn-soft: light-dark(#fff6e6, #2b2414);
-  --warn-border: light-dark(#f0c36d, #6b5420);
+  color-scheme: dark;
+  --bg: #0B0E13; --surface: #12161D; --surface-2: #1A1F28; --line: #262C37;
+  --text: #E8EAEE; --text-2: #A9B0BC; --muted: #8A92A0;
+  --signal: #FFB020; --ice: #7CC4FF; --mint: #5BE49B; --coral: #FF7A6B; --violet: #B59CFF;
+  --sans: "Plex Sans", ui-sans-serif, system-ui, sans-serif; --cond: "Plex Cond", "Plex Sans", ui-sans-serif, sans-serif; --mono: "Plex Mono", ui-monospace, Menlo, monospace;
 }
 * { box-sizing: border-box; }
 html { scroll-behavior: smooth; }
-body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 ui-sans-serif, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, sans-serif; -webkit-font-smoothing: antialiased; }
-a { color: var(--accent); }
+body { margin: 0; background: var(--bg); color: var(--text); font: 16px/1.6 var(--sans); -webkit-font-smoothing: antialiased; overflow-x: hidden; }
+a { color: var(--ice); }
+:focus-visible { outline: 2px solid var(--signal); outline-offset: 2px; }
 img, svg { max-width: 100%; height: auto; }
-.wrap { max-width: 1080px; width: 100%; margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
-header.top { border-bottom: 1px solid var(--border); background: var(--card); }
-header.top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 14px; padding-bottom: 14px; flex-wrap: wrap; }
-.mark { width: 30px; height: 30px; border-radius: 8px; background: var(--accent); display: grid; place-items: center; }
-.brand { font-weight: 650; }
-.brand small { display: block; color: var(--muted); font-weight: 400; font-size: 12px; }
-nav.links { margin-left: auto; display: flex; gap: 16px; flex-wrap: wrap; font-size: 14px; }
+.wrap { max-width: 1160px; width: 100%; margin: 0 auto; padding: 0 clamp(16px, 4vw, 28px); }
+header.top { position: sticky; top: 0; z-index: 5; border-bottom: 1px solid var(--line); background: color-mix(in srgb, var(--bg) 88%, transparent); backdrop-filter: blur(8px); }
+header.top .wrap { display: flex; align-items: center; gap: 12px; padding-top: 12px; padding-bottom: 12px; flex-wrap: wrap; }
+.brand { display: flex; align-items: center; gap: 10px; text-decoration: none; color: var(--text); }
+.brand b { font: 600 20px/1 var(--cond); letter-spacing: .01em; }
+.brand small { display: block; font: 500 10.5px/1.3 var(--mono); letter-spacing: .18em; text-transform: uppercase; color: var(--muted); margin-top: 3px; }
+nav.links { margin-left: auto; display: flex; gap: 18px; flex-wrap: wrap; font-size: 14px; }
 nav.links a { text-decoration: none; color: var(--text-2); }
-nav.links a:hover { color: var(--accent); }
-.hero { padding-top: clamp(36px, 7vw, 72px); padding-bottom: 28px; }
-.eyebrow { font-size: 13px; font-weight: 600; letter-spacing: .06em; text-transform: uppercase; color: var(--accent); }
-h1 { font-size: clamp(30px, 5vw, 46px); line-height: 1.15; margin: 10px 0 16px; letter-spacing: -.01em; }
-.lede { font-size: clamp(17px, 2.2vw, 19px); color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
-.cta { display: flex; gap: 10px; flex-wrap: wrap; margin-bottom: 26px; }
-.btn { display: inline-block; padding: 10px 16px; border-radius: 9px; border: 1px solid var(--border); background: var(--card); color: var(--text); text-decoration: none; font-weight: 600; font-size: 15px; }
-.btn.primary { background: var(--accent); border-color: var(--accent); color: #fff; }
-.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(190px, 1fr)); gap: 10px; }
-.fact { background: var(--card); border: 1px solid var(--border); border-radius: 10px; padding: 12px 14px; font-size: 14px; }
-.fact b { display: block; font-size: 12px; color: var(--muted); font-weight: 600; text-transform: uppercase; letter-spacing: .04em; }
-.note { background: var(--warn-soft); border: 1px solid var(--warn-border); border-radius: 10px; padding: 12px 16px; font-size: 14px; margin: 22px 0 0; }
-section { padding: 44px 0; border-top: 1px solid var(--border); }
-h2 { font-size: clamp(24px, 3.4vw, 30px); margin: 0 0 10px; }
-h3 { font-size: 18px; margin: 0 0 6px; }
-.sub { color: var(--text-2); max-width: 760px; margin: 0 0 24px; }
+nav.links a:hover { color: var(--signal); }
+.hero { padding-top: clamp(40px, 7vw, 76px); padding-bottom: 36px; display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr); gap: clamp(24px, 4vw, 48px); align-items: center; }
+.eyebrow { font: 500 12px/1.4 var(--mono); letter-spacing: .16em; text-transform: uppercase; color: var(--signal); }
+h1 { font: 700 clamp(34px, 5.4vw, 56px)/1.04 var(--cond); margin: 12px 0 18px; letter-spacing: -.005em; }
+h1 em { font-style: normal; color: var(--signal); }
+.lede { font-size: clamp(16px, 2vw, 18px); color: var(--text-2); margin: 0 0 26px; }
+.cta { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn { display: inline-flex; align-items: center; gap: 8px; padding: 11px 18px; border-radius: 8px; border: 1px solid var(--line); background: var(--surface); color: var(--text); text-decoration: none; font-weight: 600; font-size: 15px; transition: transform .16s ease-out, border-color .16s; }
+.btn:hover { transform: translateY(-1px); border-color: var(--signal); }
+.btn.primary { background: var(--signal); border-color: var(--signal); color: #14110A; }
+.board { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; font-family: var(--mono); box-shadow: 0 30px 80px -40px rgba(255,176,32,.25); }
+.board .bh { display: flex; justify-content: space-between; gap: 8px; padding: 10px 14px; border-bottom: 1px solid var(--line); font-size: 11px; letter-spacing: .16em; text-transform: uppercase; color: var(--muted); }
+.board .bh span:last-child { color: var(--mint); }
+.board table { width: 100%; border-collapse: collapse; border: 0; border-radius: 0; background: none; font-size: 13px; }
+.board td { padding: 10px 14px; border-bottom: 1px solid var(--line); white-space: nowrap; }
+.board tr:last-child td { border-bottom: 0; }
+.board td.k { color: var(--text-2); font-family: var(--sans); white-space: normal; }
+.board td.v { text-align: right; font-weight: 500; }
+.pill { display: inline-block; padding: 1px 8px; border-radius: 999px; font-size: 11px; font-weight: 500; }
+.bad { color: var(--coral); background: color-mix(in srgb, var(--coral) 14%, transparent); }
+.warn { color: var(--signal); background: color-mix(in srgb, var(--signal) 14%, transparent); }
+.good { color: var(--mint); background: color-mix(in srgb, var(--mint) 14%, transparent); }
+.ai { color: var(--violet); background: color-mix(in srgb, var(--violet) 14%, transparent); }
+.blink { animation: blink 1.6s steps(2, start) infinite; }
+@keyframes blink { to { visibility: hidden; } }
+@media (prefers-reduced-motion: reduce) { .blink { animation: none; } .btn { transition: none; } html { scroll-behavior: auto; } }
+.facts { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1px; background: var(--line); border: 1px solid var(--line); border-radius: 12px; overflow: hidden; margin-bottom: 8px; }
+.fact { background: var(--surface); padding: 14px 16px; font-size: 14px; color: var(--text-2); }
+.fact b { display: block; font: 500 11px/1.5 var(--mono); color: var(--signal); text-transform: uppercase; letter-spacing: .14em; margin-bottom: 4px; }
+.note { border-left: 3px solid var(--signal); background: var(--surface); border-radius: 0 10px 10px 0; padding: 12px 16px; font-size: 14px; color: var(--text-2); margin: 22px 0 0; }
+.note strong { color: var(--text); }
+section { padding: 56px 0; border-top: 1px solid var(--line); }
+h2 { font: 700 clamp(26px, 3.6vw, 34px)/1.15 var(--cond); margin: 0 0 10px; }
+h3 { font: 600 19px/1.3 var(--cond); margin: 0 0 6px; }
+.sub { color: var(--text-2); max-width: 760px; margin: 0 0 26px; }
 .grid3 { display: grid; grid-template-columns: repeat(auto-fit, minmax(240px, 1fr)); gap: 14px; }
-.card { background: var(--card); border: 1px solid var(--border); border-radius: 12px; padding: 18px; }
+.card { background: var(--surface); border: 1px solid var(--line); border-radius: 12px; padding: 18px; }
 .card p { margin: 0; color: var(--text-2); font-size: 15px; }
-figure { margin: 0 0 34px; }
-figure img { display: block; width: 100%; border: 1px solid var(--border); border-radius: 12px; background: var(--card); }
-figcaption { margin-top: 10px; font-size: 15px; color: var(--text-2); }
-figcaption .cap { display: inline-block; font-size: 12px; font-weight: 600; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 9px; margin-right: 6px; }
-.step { font-size: 13px; font-weight: 700; color: var(--muted); margin-bottom: 6px; }
+figure { margin: 0 0 40px; }
+figure img { display: block; width: 100%; border: 1px solid var(--line); border-radius: 12px; background: var(--surface); }
+figcaption { margin-top: 12px; font-size: 15px; color: var(--text-2); }
+figcaption .cap { display: inline-block; font: 500 11px/1.8 var(--mono); letter-spacing: .06em; color: var(--signal); background: color-mix(in srgb, var(--signal) 12%, transparent); border-radius: 999px; padding: 0 10px; margin-right: 6px; }
+.step { font: 500 12px/1.4 var(--mono); letter-spacing: .14em; color: var(--muted); margin-bottom: 6px; text-transform: uppercase; }
 .two { display: grid; grid-template-columns: repeat(auto-fit, minmax(300px, 1fr)); gap: 22px; align-items: start; }
 .table-wrap { overflow-x: auto; }
-table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--card); border: 1px solid var(--border); border-radius: 10px; overflow: hidden; }
-th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--border); vertical-align: top; }
-th { background: var(--card-2); font-size: 12px; text-transform: uppercase; letter-spacing: .04em; color: var(--muted); }
-code, pre { font-family: ui-monospace, Menlo, Consolas, monospace; font-size: 13px; }
-code { background: var(--card-2); padding: 1px 5px; border-radius: 4px; }
-pre { background: var(--card-2); border: 1px solid var(--border); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
+table { border-collapse: collapse; width: 100%; font-size: 14px; background: var(--surface); border: 1px solid var(--line); border-radius: 10px; overflow: hidden; }
+th, td { text-align: left; padding: 9px 12px; border-bottom: 1px solid var(--line); vertical-align: top; }
+th { background: var(--surface-2); font: 500 11px/1.5 var(--mono); text-transform: uppercase; letter-spacing: .1em; color: var(--muted); }
+code, pre { font-family: var(--mono); font-size: 13px; }
+code { background: var(--surface-2); padding: 1px 5px; border-radius: 4px; }
+pre { background: var(--surface-2); border: 1px solid var(--line); border-radius: 10px; padding: 14px 16px; overflow-x: auto; margin: 0 0 14px; }
 pre code { background: none; padding: 0; }
 ul { padding-left: 20px; }
 li { margin: 4px 0; }
-footer { border-top: 1px solid var(--border); padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
-@media (max-width: 560px) { nav.links { margin-left: 0; width: 100%; gap: 12px; } }
+footer { border-top: 1px solid var(--line); padding: 28px 0 44px; color: var(--muted); font-size: 14px; }
+@media (max-width: 860px) { .hero { grid-template-columns: 1fr; } }
+@media (max-width: 560px) { nav.links { margin-left: 0; width: 100%; gap: 14px; } .board td { padding: 9px 10px; } }
 </style>
 </head>
 <body>
 
 <header class="top">
   <div class="wrap">
-    <div class="mark" aria-hidden="true">
-      <svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M9 11l3 3L22 4"/><path d="M21 12v7a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V5a2 2 0 0 1 2-2h11"/></svg>
-    </div>
-    <div class="brand">Regulatory Trade Reporting Validation<small>A Snowflake example on synthetic data</small></div>
+    <a class="brand" href="./" aria-label="Cadrel reporting desk, a Snowflake example"><svg width="30" height="30" viewBox="0 0 32 32" aria-hidden="true"><rect width="32" height="32" rx="8" fill="#FFB020"/><path d="M6 20h20" stroke="#14110A" stroke-width="2" stroke-linecap="round"/><rect x="8" y="11" width="3" height="9" rx="1.5" fill="#14110A"/><rect x="14.5" y="13" width="3" height="7" rx="1.5" fill="#14110A"/><rect x="21" y="8" width="3" height="8" rx="1.5" fill="#14110A"/></svg><span><b>Cadrel</b><small>Reporting desk · Snowflake example</small></span></a>
     <nav class="links" aria-label="Page sections">
       <a href="#walkthrough">Walkthrough</a>
       <a href="#how-it-works">How it works</a>
@@ -109,13 +125,29 @@ footer { border-top: 1px solid var(--border); padding: 28px 0 44px; color: var(-
 
 <main>
 <div class="wrap hero" id="problem">
-  <div class="eyebrow">Capital Markets · Compliance</div>
-  <h1>Catch CAT and CAIS reporting errors before the regulator does</h1>
-  <p class="lede">Broker-dealers report every order event to the Consolidated Audit Trail (CAT) and customer and account data to CAIS. Volumes are huge, checks and reconciliations are often manual, and regulator feedback arrives as rejects that analysts work by hand against a deadline. This example runs pre-submission checks and a books-to-CAT reconciliation in a Snowflake pipeline, flags volume and error anomalies, clusters rejects by root cause with an AI explanation and suggested repair, matches customer records across accounts, and logs every run and decision as evidence.</p>
-  <div class="cta">
+  <div>
+    <div class="eyebrow">Capital Markets · Regulatory reporting</div>
+    <h1>Catch CAT and CAIS reporting errors <em>before the regulator does</em></h1>
+    <p class="lede">Broker-dealers report every order event to the Consolidated Audit Trail (CAT) and customer and account data to CAIS. Volumes are huge, checks and reconciliations are often manual, and regulator feedback arrives as rejects that analysts work by hand against a deadline. This example runs pre-submission checks and a books-to-CAT reconciliation in a Snowflake pipeline, flags volume and error anomalies, clusters rejects by root cause with an AI explanation and suggested repair, matches customer records across accounts, and logs every run and decision as evidence.</p>
+    <div class="cta">
     <a class="btn primary" href="try/">Try the example in your browser</a>
     <a class="btn" href="https://github.com/sfc-gh-ooral/sfguide-trade-reporting-validation">View the repository</a>
   </div>
+  </div>
+  <div class="board" role="img" aria-label="Departures-board style status panel for the synthetic Northwind Securities feed on trade date October 29: 542 events reported, 38 regulator rejects with 26 linkage breaks from one system, 38 of 38 caught by pre-submission checks, 12 fills missing from the CAT feed, a CAIS customer split across three accounts, and the next CAT file due in 2 days 16 hours.">
+    <div class="bh"><span>Northwind Securities · trade date 10-29</span><span>synthetic</span></div>
+    <table>
+      <tr><td class="k">Events reported</td><td class="v">542</td></tr>
+      <tr><td class="k">Regulator rejects</td><td class="v"><span class="pill bad">38 · +387%</span></td></tr>
+      <tr><td class="k">LNK-01 linkage breaks, ALGO-X</td><td class="v"><span class="pill bad">26</span></td></tr>
+      <tr><td class="k">Caught before submission</td><td class="v"><span class="pill good">38 / 38</span></td></tr>
+      <tr><td class="k">Fills missing from the CAT feed</td><td class="v"><span class="pill warn">12</span></td></tr>
+      <tr><td class="k">CAIS customer on 3 accounts</td><td class="v"><span class="pill ai">match 0.977</span></td></tr>
+      <tr><td class="k">Next CAT file due</td><td class="v" style="color:var(--signal)">2d 16h<span class="blink">_</span></td></tr>
+    </table>
+  </div>
+</div>
+<div class="wrap">
   <div class="facts">
     <div class="fact"><b>No-account mode</b>Runs in the browser on synthetic data; nothing to install</div>
     <div class="fact"><b>Live mode</b>Enterprise Edition; Dynamic Tables, data metric functions, anomaly detection, Cortex AI</div>

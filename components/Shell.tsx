@@ -90,14 +90,14 @@ export default function Shell({ children }: { children: ReactNode }) {
         </div>
       )}
       <header className="sticky top-0 z-40 border-b" style={{ background: 'var(--bg)', borderColor: 'var(--line)' }}>
-        <div className="max-w-[1440px] mx-auto px-3 sm:px-6 h-[52px] flex items-center gap-3">
+        <div className="max-w-[1440px] mx-auto px-3 sm:px-6 h-[52px] flex items-center gap-2 sm:gap-3">
           <Link href="/" className="no-underline shrink-0" aria-label="Cadrel reporting desk, home"><Wordmark /></Link>
           <nav aria-label="Main" className="hidden lg:flex items-center ml-4">
             {NAV.map(({ href, label, icon: Icon }) => (
               <Link key={href} href={href} className="navtab" aria-current={active(href) ? 'page' : undefined}><Icon className="w-4 h-4" aria-hidden />{label}</Link>
             ))}
           </nav>
-          <div className="ml-auto flex items-center gap-2">
+          <div className="ml-auto flex items-center gap-1.5 sm:gap-2 min-w-0">
             <span className="hidden md:inline-flex pill" style={{ color: 'var(--text-2)', background: 'var(--surface-2)', borderColor: 'var(--line)' }} title="Persona and the Snowflake role Live mode uses">
               <UserRound className="w-3 h-3" aria-hidden />Reporting analyst · <span className="mono">TRV_DEMO_ROLE</span>
             </span>
