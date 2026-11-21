@@ -3,6 +3,7 @@
 // and their measured latency. Run after sql/setup.sql, with `npm run dev` using .env.local:
 //   node scripts/capture-sample.mjs [http://localhost:3000]
 import { readFileSync, writeFileSync } from 'node:fs';
+import { syntheticQueryIds } from './lib/synthetic-query-ids.mjs';
 
 const BASE = process.argv[2] ?? 'http://localhost:3000';
 const env = Object.fromEntries(readFileSync('.env.local', 'utf8').split('\n').map((l) => l.match(/^([A-Z_]+)=(.*)$/)).filter(Boolean).map((m) => [m[1], m[2]]));
@@ -37,7 +38,7 @@ for (const i of out.cais.issues.filter((x) => x.error_code === 'CA-13')) out.mat
 out.anomalies = await call('anomalies');
 out.evidence = await call('evidence');
 
-// Never ship the account's user name in the sample.
-const json = JSON.stringify(out).replaceAll(env.SNOWFLAKE_USERNAME.toUpperCase(), 'REPORTING_ANALYST').replaceAll(env.SNOWFLAKE_USERNAME, 'reporting_analyst');
+// Never ship the account's user name or real query IDs in the sample.
+const json = syntheticQueryIds(JSON.stringify(out)).replaceAll(env.SNOWFLAKE_USERNAME.toUpperCase(), 'REPORTING_ANALYST').replaceAll(env.SNOWFLAKE_USERNAME, 'reporting_analyst');
 writeFileSync('lib/sample/data.json', json);
 console.log('wrote lib/sample/data.json', (json.length / 1024).toFixed(0), 'KB;', orderIds.size, 'orders');

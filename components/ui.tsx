@@ -3,7 +3,7 @@
 // Shared UI pieces: panels, KPI tiles, badges, skeletons, sortable tables, the detail drawer,
 // streamed AI text, and a tiny markdown renderer for AI output (text is escaped by React).
 import { ArrowDown, ArrowUp, ArrowUpDown, Bot, Database, Snowflake, Timer, X } from 'lucide-react';
-import { useEffect, useMemo, useRef, useState, type ReactNode } from 'react';
+import { useEffect, useMemo, useRef, useState, type PointerEvent, type ReactNode } from 'react';
 import type { Provenance } from '@/lib/types';
 
 export function Panel({ title, eyebrow, right, children, className = '', pad = true }: { title?: ReactNode; eyebrow?: string; right?: ReactNode; children: ReactNode; className?: string; pad?: boolean }) {
@@ -49,24 +49,39 @@ export function CountUp({ value, format = (x) => Math.round(x).toLocaleString('e
   return <>{format(v)}</>;
 }
 
-export function Spark({ values, color = 'var(--ice)', highlightLast = true }: { values: number[]; color?: string; highlightLast?: boolean }) {
+export function Spark({ values, labels, color = 'var(--ice)', highlightLast = true }: { values: number[]; labels?: string[]; color?: string; highlightLast?: boolean }) {
+  const [hi, setHi] = useState<number>();
   if (values.length < 2) return null;
   const W = 120, H = 32, max = Math.max(...values, 1), min = Math.min(...values, 0);
   const pt = (v: number, i: number) => [(i / (values.length - 1)) * W, H - 3 - ((v - min) / Math.max(1, max - min)) * (H - 6)];
   const d = values.map((v, i) => `${i ? 'L' : 'M'}${pt(v, i).map((x) => x.toFixed(1)).join(' ')}`).join('');
   const [lx, ly] = pt(values.at(-1)!, values.length - 1);
+  const onMove = (e: PointerEvent<HTMLDivElement>) => {
+    const r = e.currentTarget.getBoundingClientRect();
+    setHi(Math.max(0, Math.min(values.length - 1, Math.round(((e.clientX - r.left) / r.width) * (values.length - 1)))));
+  };
+  const hx = hi == null ? 0 : (hi / (values.length - 1)) * 100;
   return (
-    <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-8" preserveAspectRatio="none" aria-hidden>
-      <path d={`${d}L${W} ${H}L0 ${H}Z`} fill={color} opacity={0.12} />
-      <path d={d} fill="none" stroke={color} strokeWidth={1.6} vectorEffect="non-scaling-stroke" />
-      {highlightLast && <circle cx={lx} cy={ly} r={2.6} fill={color} />}
-    </svg>
+    <div className="relative" onPointerMove={onMove} onPointerLeave={() => setHi(undefined)}>
+      <svg viewBox={`0 0 ${W} ${H}`} className="w-full h-8" preserveAspectRatio="none" aria-hidden>
+        <path d={`${d}L${W} ${H}L0 ${H}Z`} fill={color} opacity={0.12} />
+        <path d={d} fill="none" stroke={color} strokeWidth={1.6} vectorEffect="non-scaling-stroke" />
+        {highlightLast && hi == null && <circle cx={lx} cy={ly} r={2.6} fill={color} />}
+        {hi != null && <line x1={pt(values[hi], hi)[0]} x2={pt(values[hi], hi)[0]} y1={0} y2={H} stroke={color} strokeWidth={1} vectorEffect="non-scaling-stroke" />}
+      </svg>
+      {hi != null && (
+        <div role="tooltip" className="absolute bottom-full mb-1 pointer-events-none whitespace-nowrap mono text-[11px] px-2 py-1 rounded-md border"
+          style={{ left: `${hx}%`, transform: `translateX(${hx > 70 ? '-100%' : hx < 30 ? '0' : '-50%'})`, background: 'var(--surface)', borderColor: 'var(--line-strong)', color: 'var(--text)' }}>
+          {labels?.[hi] ? `${labels[hi]} · ` : ''}{values[hi].toLocaleString()}
+        </div>
+      )}
+    </div>
   );
 }
 
-export function Kpi({ label, value, format, unit, delta, deltaGoodWhen = 'down', sub, spark, tone = 'var(--ice)' }: {
+export function Kpi({ label, value, format, unit, delta, deltaGoodWhen = 'down', sub, spark, sparkLabels, tone = 'var(--ice)' }: {
   /** delta: percent change against the comparison period. */
-  label: string; value: number; format?: (x: number) => string; unit?: string; delta?: number | null; deltaGoodWhen?: 'up' | 'down'; sub?: string; spark?: number[]; tone?: string;
+  label: string; value: number; format?: (x: number) => string; unit?: string; delta?: number | null; deltaGoodWhen?: 'up' | 'down'; sub?: string; spark?: number[]; sparkLabels?: string[]; tone?: string;
 }) {
   const good = delta == null || delta === 0 ? null : (delta > 0) === (deltaGoodWhen === 'up');
   return (
@@ -82,7 +97,7 @@ export function Kpi({ label, value, format, unit, delta, deltaGoodWhen = 'down',
         )}
       </div>
       {sub && <div className="text-xs muted">{sub}</div>}
-      {spark && <div className="mt-1"><Spark values={spark} color={tone} /></div>}
+      {spark && <div className="mt-1"><Spark values={spark} labels={sparkLabels} color={tone} /></div>}
     </div>
   );
 }

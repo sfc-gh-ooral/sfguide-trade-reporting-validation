@@ -33,7 +33,8 @@ function Timeline({ d }: { d: OrderTimeline }) {
   const hp = pts.find((p) => p.id === hover);
   return (
     <div className="scroller">
-      <svg viewBox={`0 0 ${W} ${TOP + LH * 3 + 6}`} className="w-full min-w-[640px]" role="img"
+      <div className="relative min-w-[640px]">
+      <svg viewBox={`0 0 ${W} ${TOP + LH * 3 + 6}`} className="w-full" role="img"
         aria-label={`Timeline of ${pts.length} events in time order. ${pts.filter((p) => p.bad).map((p) => `${p.label} ${p.id} at ${clock(p.ts)} is flagged`).join('. ') || 'No events flagged.'}`}>
         {LANES.map((l, i) => (
           <g key={l}>
@@ -45,7 +46,7 @@ function Timeline({ d }: { d: OrderTimeline }) {
           <text x={x(newIdx)} y={14} fontSize="10" textAnchor="middle" fill="var(--signal)" fontFamily="var(--font-plex-mono)">order NEW</text></g>}
         {pts.slice(1).map((p, i) => <line key={`l${p.id}`} x1={x(i)} y1={y(pts[i].lane)} x2={x(i + 1)} y2={y(p.lane)} stroke="var(--line-strong)" strokeWidth={1.2} />)}
         {pts.map((p, i) => (
-          <g key={p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(undefined)} style={{ cursor: 'default' }}>
+          <g key={p.id} onMouseEnter={() => setHover(p.id)} onMouseLeave={() => setHover(undefined)} onClick={() => setHover(p.id)} style={{ cursor: 'default' }}>
             {p.bad && <circle cx={x(i)} cy={y(p.lane)} r={13} fill="var(--coral)" opacity={0.18} />}
             <circle cx={x(i)} cy={y(p.lane)} r={7} fill={p.bad ? 'var(--coral)' : p.lane === 1 ? 'var(--violet)' : p.lane === 2 ? 'var(--mint)' : 'var(--ice)'} stroke="var(--surface)" strokeWidth={2} />
             <text x={x(i)} y={y(p.lane) - 13} fontSize="10.5" textAnchor="middle" fill="var(--text)" fontWeight={600} fontFamily="var(--font-plex-mono)">{p.label}</text>
@@ -53,6 +54,12 @@ function Timeline({ d }: { d: OrderTimeline }) {
           </g>
         ))}
       </svg>
+      {hp && (() => { const i = pts.indexOf(hp), px = (x(i) / W) * 100; return (
+        <div role="tooltip" className="absolute pointer-events-none whitespace-nowrap mono text-[11px] px-2 py-1 rounded-md border"
+          style={{ left: `${px}%`, top: `${((y(hp.lane) + 30) / (TOP + LH * 3 + 6)) * 100}%`, transform: `translateX(${px > 75 ? '-100%' : px < 25 ? '0' : '-50%'})`, background: 'var(--surface)', borderColor: hp.bad ? 'var(--coral)' : 'var(--line-strong)', color: 'var(--text)', zIndex: 2 }}>
+          {hp.id} · {hp.label} · {clock(hp.ts)}{hp.sub ? ` · ${hp.sub}` : ''}{hp.bad ? ' · flagged' : ''}
+        </div>); })()}
+      </div>
       <div className="flex items-center justify-between gap-3 flex-wrap text-[11.5px] muted mt-1">
         <span>{hp ? <span className="mono" style={{ color: 'var(--text)' }}>{hp.id} · {hp.label} · {clock(hp.ts)} · {hp.sub}</span> : 'Hover an event for details. Spacing shows order, not elapsed time.'}</span>
         <span className="flex gap-3"><span><span style={{ color: 'var(--coral)' }}>●</span> flagged or rejected</span><span><span style={{ color: 'var(--signal)' }}>┊</span> the order&apos;s NEW event</span></span>

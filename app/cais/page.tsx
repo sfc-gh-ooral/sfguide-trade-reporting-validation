@@ -72,7 +72,7 @@ function Matcher({ issue, onDone }: { issue: CaisIssue; onDone: () => void }) {
                     <td><input type="checkbox" aria-label={`Include ${r.record_id}`} checked={picked.has(r.record_id)} disabled={r.record_id === m.anchor.record_id} onChange={() => toggle(r.record_id)} /></td>
                     <td className="mono text-xs whitespace-nowrap">{r.record_id}<div className="muted">{r.account_id} · {r.account_type}</div></td>
                     <td>{score === null ? <Tag>Anchor</Tag> : (
-                      <span className="flex items-center gap-2"><span className="w-12 h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--surface-2)' }} aria-hidden><span className="block h-full" style={{ width: `${score * 100}%`, background: score >= m.threshold ? 'var(--mint)' : 'var(--muted)' }} /></span>
+                      <span className="flex items-center gap-2"><span className="w-12 h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--surface-2)' }} aria-hidden title={`Similarity ${score.toFixed(3)} · threshold ${m.threshold}`}><span className="block h-full" style={{ width: `${score * 100}%`, background: score >= m.threshold ? 'var(--mint)' : 'var(--muted)' }} /></span>
                         <span className="mono text-xs" style={{ color: score >= m.threshold ? 'var(--mint)' : 'var(--muted)' }}>{score.toFixed(3)}</span></span>)}</td>
                     {CANONICAL_FIELDS.map((f) => <td key={f} className="text-xs whitespace-nowrap" style={picked.has(r.record_id) && diff.includes(f) ? { color: 'var(--coral)', fontWeight: 600 } : undefined}>{String(r[f])}</td>)}
                     <td className="mono text-xs">{r.open_date}</td>

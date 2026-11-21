@@ -68,7 +68,7 @@ function RuleTile({ r, selected, onPick }: { r: RuleResult; selected: boolean; o
       <div className="font-semibold text-[14px] leading-snug">{r.name}</div>
       <div className="text-xs text-2 line-clamp-2">{r.description}</div>
       <div className="mt-auto pt-1">
-        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--surface-2)' }} aria-hidden>
+        <div className="h-1.5 rounded-full overflow-hidden" style={{ background: 'var(--surface-2)' }} aria-hidden title={fail ? `${n(r.failures)} of ${n(r.records_checked)} records failed (${rate.toFixed(2)}%)` : `All ${n(r.records_checked)} records passed`}>
           <div className="h-full rounded-full" style={{ width: `${fail ? Math.max(3, Math.min(100, rate * 8)) : 100}%`, background: fail ? 'var(--coral)' : 'var(--mint)', opacity: fail ? 1 : 0.5 }} />
         </div>
         <div className="flex items-center justify-between text-[11px] muted mt-1.5 gap-2">

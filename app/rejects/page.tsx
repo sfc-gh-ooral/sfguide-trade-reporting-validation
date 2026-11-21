@@ -162,7 +162,7 @@ export default function RejectsPage() {
                         {c.open + c.assigned ? <Tag tone="bad" mono>{c.open + c.assigned} open</Tag> : <Tag tone="good">Repaired</Tag>}
                       </div>
                       <div className="text-[11.5px] muted mono mt-1 truncate">{c.source_system} · {c.desk} · {c.trade_dates.length === 1 ? day(c.trade_dates[0]) : `${day(c.trade_dates[0])}–${day(c.trade_dates.at(-1)!)}`}</div>
-                      <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: 'var(--bg)' }} aria-hidden>
+                      <div className="h-1 rounded-full mt-2 overflow-hidden" style={{ background: 'var(--bg)' }} aria-hidden title={`${c.repaired} repaired · ${c.open + c.assigned} open`}>
                         <div className="h-full flex"><span style={{ width: `${(100 * c.repaired) / max}%`, background: 'var(--mint)' }} /><span style={{ width: `${(100 * (c.open + c.assigned)) / max}%`, background: CODE_COLORS[c.error_code] }} /></div>
                       </div>
                     </button>

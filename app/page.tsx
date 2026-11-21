@@ -53,9 +53,9 @@ export default function HealthPage() {
       )}
 
       <div className="grid grid-cols-2 lg:grid-cols-5 gap-3">
-        <Kpi label="Events reported" value={k.records} delta={pct(k.records, avg((x) => x.events))} deltaGoodWhen="up" sub={`vs prior 5 trading days`} spark={h.trend.map((t) => t.events)} />
-        <Kpi label="Check failures" value={k.checkFailures} delta={pct(k.checkFailures, avg((x) => x.check_failures))} sub="Pre-submission rules" spark={h.trend.map((t) => t.check_failures)} tone="var(--signal)" />
-        <Kpi label="Regulator rejects" value={k.rejects} delta={pct(k.rejects, avg((x) => x.rejects))} sub="Feedback on the latest file" spark={h.trend.map((t) => t.rejects)} tone="var(--coral)" />
+        <Kpi label="Events reported" value={k.records} delta={pct(k.records, avg((x) => x.events))} deltaGoodWhen="up" sub={`vs prior 5 trading days`} spark={h.trend.map((t) => t.events)} sparkLabels={h.trend.map((t) => day(t.trade_date))} />
+        <Kpi label="Check failures" value={k.checkFailures} delta={pct(k.checkFailures, avg((x) => x.check_failures))} sub="Pre-submission rules" spark={h.trend.map((t) => t.check_failures)} sparkLabels={h.trend.map((t) => day(t.trade_date))} tone="var(--signal)" />
+        <Kpi label="Regulator rejects" value={k.rejects} delta={pct(k.rejects, avg((x) => x.rejects))} sub="Feedback on the latest file" spark={h.trend.map((t) => t.rejects)} sparkLabels={h.trend.map((t) => day(t.trade_date))} tone="var(--coral)" />
         <Kpi label="Caught before submission" value={k.caughtOf ? (100 * k.caught) / k.caughtOf : 0} format={(x) => `${Math.round(x)}%`} sub={`${k.caught} of ${k.caughtOf} rejects matched a check`} tone="var(--mint)" />
         <Kpi label="Repair backlog" value={k.backlog} sub={`${openClusters.length} open root-cause clusters + CAIS`} tone="var(--signal)" />
       </div>
